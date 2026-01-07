@@ -6,8 +6,8 @@
     <title>Bissinger's Herald Square | Truffle Tracker</title>
     <style>
         :root {
-            --bissingers-brown: #3d2b1f; /* Signature Bissinger's Brown */
-            --bissingers-gold: #c5a059;  /* Elegant Gold Accent */
+            --bissingers-brown: #3d2b1f; 
+            --bissingers-gold: #c5a059;  
             --bissingers-cream: #f9f6f2;
             --primary: var(--bissingers-brown);
             --secondary: #5d4037;
@@ -36,29 +36,58 @@
         .header {
             background: var(--bissingers-brown);
             color: var(--bissingers-gold);
-            padding: 30px 15px;
-            border-radius: 4px; /* Slightly sharper, more professional edges */
-            margin-bottom: 25px;
+            padding: 25px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             border-bottom: 3px solid var(--bissingers-gold);
         }
 
         .header h1 { 
-            font-size: 1.8rem; 
+            font-size: 1.6rem; 
             margin-bottom: 5px; 
             letter-spacing: 2px;
             text-transform: uppercase;
             font-weight: 300;
         }
-        .header p { 
-            opacity: 0.9; 
-            font-size: 0.9rem; 
-            font-style: italic;
-            color: var(--white);
+
+        /* Tabbed Navigation */
+        .floor-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        /* Inputs & Controls */
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: #e0dcd8;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--bissingers-brown);
+            color: var(--bissingers-gold);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .floor-view {
+            display: none;
+        }
+
+        .floor-view.active {
+            display: block;
+        }
+
+        /* Card Styling */
         .card {
             background: var(--white);
             padding: 20px;
@@ -86,7 +115,6 @@
             font-weight: 700;
             color: var(--bissingers-brown);
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         input, select {
@@ -95,314 +123,178 @@
             border-radius: 2px;
             font-size: 1rem;
             width: 100%;
-            color: var(--bissingers-brown);
         }
 
-        input:focus { outline: none; border-color: var(--bissingers-gold); }
-
-        /* Search Bar */
-        .search-wrapper {
-            position: relative;
-            margin-top: 10px;
-        }
-
-        .search-wrapper input {
-            padding-left: 35px;
-            border-radius: 20px;
+        /* AI Scanner UI */
+        .scanner-section {
             background: var(--bissingers-cream);
-            border: 1px solid #e0dcd8;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0.6;
-        }
-
-        /* Table Desktop Styles */
-        .table-container {
-            overflow-x: auto;
+            border: 2px dashed var(--bissingers-gold);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
             border-radius: 4px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
+        .loading-spinner {
+            display: none;
+            margin: 10px auto;
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border-left-color: var(--bissingers-gold);
+            animation: spin 1s linear infinite;
         }
 
-        thead {
-            background: var(--bissingers-brown);
-            color: var(--bissingers-gold);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Table UI */
+        .table-container { overflow-x: auto; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        thead { background: var(--bissingers-brown); color: var(--bissingers-gold); }
+        th { padding: 12px; text-align: left; font-size: 0.8rem; text-transform: uppercase; }
+        td { padding: 10px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+
+        .btn-row-scan {
+            background: var(--bissingers-gold);
+            color: var(--bissingers-brown);
+            border: 1px solid var(--bissingers-brown);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        th { 
-            padding: 12px; 
-            text-align: left; 
-            font-size: 0.8rem; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        td { padding: 10px; border-bottom: 1px solid #f0f0f0; }
+        .pm-cell { display: flex; align-items: center; gap: 8px; }
 
-        /* Mobile Card View Transformation */
         @media (max-width: 768px) {
             table, thead, tbody, th, td, tr { display: block; }
-            
             thead tr { position: absolute; top: -9999px; left: -9999px; }
-
-            tr {
-                border: 1px solid #e0dcd8;
-                margin-bottom: 15px;
-                border-radius: 4px;
-                background: white;
-                padding: 10px;
-            }
-
-            td {
-                border: none;
-                position: relative;
-                padding-left: 50%;
-                text-align: right;
-                min-height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                font-size: 0.95rem;
-            }
-
-            td:before {
-                content: attr(data-label);
-                position: absolute;
-                left: 10px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                text-align: left;
-                font-weight: bold;
-                color: var(--bissingers-brown);
-                font-size: 0.75rem;
-                text-transform: uppercase;
-            }
-
-            td.flavor-name {
-                background: var(--bissingers-cream);
-                display: block;
-                text-align: center;
-                padding: 12px;
-                font-weight: bold;
-                font-size: 1rem;
-                border-radius: 2px;
-                margin-bottom: 10px;
-                padding-left: 10px;
-                color: var(--bissingers-brown);
-                border-bottom: 2px solid var(--bissingers-gold);
-            }
-
+            tr { border: 1px solid #e0dcd8; margin-bottom: 15px; padding: 10px; }
+            td { padding-left: 50%; text-align: right; position: relative; min-height: 40px; display: flex; align-items: center; justify-content: flex-end; }
+            td:before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
+            td.flavor-name { display: block; text-align: center; padding: 12px; font-weight: bold; background: var(--bissingers-cream); margin-bottom: 10px; }
             td.flavor-name:before { content: ""; }
-            
-            input[type="number"] {
-                max-width: 100px !important;
-                text-align: center;
-                border-color: #ddd;
-            }
         }
 
-        /* Helpers */
-        .calculated { font-weight: bold; color: var(--bissingers-brown); }
-        .error { color: var(--danger); font-weight: bold; }
+        .calculated { font-weight: bold; }
+        .error { color: var(--danger); }
         
-        .btn-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .btn {
-            border: 1px solid transparent;
-            padding: 12px;
-            border-radius: 2px;
-            font-weight: bold;
-            cursor: pointer;
-            color: white;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-save { background: var(--bissingers-brown); border-color: var(--bissingers-gold); color: var(--bissingers-gold); }
+        .btn-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
+        .btn { padding: 12px; border-radius: 2px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; }
+        .btn-save { background: var(--bissingers-brown); color: var(--bissingers-gold); border: 1px solid var(--bissingers-gold); }
         .btn-clear { background: #f8f8f8; color: #666; border: 1px solid #ddd; }
-        .btn-export { background: var(--bissingers-brown); color: var(--white); }
-        .btn-copy { background: var(--bissingers-gold); color: var(--bissingers-brown); }
+        .btn-ai { background: var(--bissingers-gold); color: var(--bissingers-brown); width: 100%; border: 1px solid var(--bissingers-brown); }
 
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .summary-item {
-            background: var(--bissingers-cream);
-            padding: 15px;
-            border-radius: 2px;
-            text-align: center;
-            border: 1px solid #ece8e4;
-        }
-
-        .summary-val { font-size: 1.5rem; font-weight: 800; display: block; color: var(--bissingers-brown); }
-        .summary-lbl { font-size: 0.65rem; text-transform: uppercase; color: #8a7364; letter-spacing: 1px; }
-
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bissingers-brown);
-            color: var(--bissingers-gold);
-            padding: 12px 24px;
-            border-radius: 4px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 1000;
-            border: 1px solid var(--bissingers-gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        @media print {
-            .btn-group, .search-wrapper, .btn-save, .btn-clear { display: none !important; }
-        }
+        .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 12px 24px; border-radius: 4px; opacity: 0; transition: opacity 0.3s; z-index: 1000; }
     </style>
 </head>
 <body onload="init()">
 
-    <div id="toast" class="toast">Data Saved</div>
+    <div id="toast" class="toast">Action Complete</div>
 
     <div class="header">
-        <h1>Bissinger's Herald Square</h1>
-        <p id="displayDate">6th Floor & 1st Floor Inventory</p>
+        <h1>Bissinger's Truffle Tracker</h1>
+        <p id="displayDate">Herald Square Inventory</p>
     </div>
 
+    <!-- Global Info -->
     <div class="card">
         <div class="date-grid">
             <div class="input-group">
-                <label>Inventory Date</label>
+                <label>Date</label>
                 <input type="date" id="trackingDate" onchange="updateDateDisplay(); saveData();">
             </div>
             <div class="input-group">
                 <label>Opening MOD</label>
                 <select id="openingMod" onchange="saveData()">
                     <option value="">Select...</option>
-                    <option>Tom</option><option>Arin</option><option>Czar</option>
-                    <option>Faith</option><option>Gully</option><option>Associate</option>
-                </select>
-            </div>
-            <div class="input-group">
-                <label>Closing MOD</label>
-                <select id="closingMod" onchange="saveData()">
-                    <option value="">Select...</option>
-                    <option>Tom</option><option>Arin</option><option>Czar</option>
-                    <option>Faith</option><option>Gully</option><option>Associate</option>
+                    <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option>
                 </select>
             </div>
         </div>
         <div class="btn-group">
             <button class="btn btn-save" onclick="lockAM()">Lock AM Counts</button>
-            <button class="btn btn-clear" onclick="clearAll()">Reset Form</button>
+            <button class="btn btn-clear" onclick="clearAll()">Reset All</button>
         </div>
     </div>
 
-    <!-- 6th Floor -->
-    <div class="card">
-        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-            <h2 style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--bissingers-brown);">6th Floor Selection</h2>
-            <div class="search-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Filter truffles..." onkeyup="filterList(this, 'floor6Body')">
+    <!-- Floor Selector Tabs -->
+    <div class="floor-tabs">
+        <button class="tab-btn active" id="btn-f6" onclick="switchFloor('f6')">6th Floor</button>
+        <button class="tab-btn" id="btn-f1" onclick="switchFloor('f1')">1st Floor</button>
+    </div>
+
+    <!-- Hidden Cameras -->
+    <input type="file" id="globalCamera" accept="image/*" capture="environment" style="display: none;" onchange="handleImageUpload(event)">
+    <input type="file" id="rowCamera" accept="image/*" capture="environment" style="display: none;" onchange="handleRowImageUpload(event)">
+
+    <!-- 6th Floor View -->
+    <div id="f6-view" class="floor-view active">
+        <div class="card scanner-section">
+            <h3 style="font-size: 0.8rem; margin-bottom: 10px; text-transform: uppercase;">6th Floor Batch Scan</h3>
+            <div class="loading-spinner" id="scannerLoading"></div>
+            <button class="btn btn-ai" onclick="document.getElementById('globalCamera').click()">📷 Scan whole case</button>
+        </div>
+        <div class="card">
+            <input type="text" placeholder="Filter 6th Floor..." onkeyup="filterList(this, 'f6Body')" style="margin-bottom: 15px;">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr><th>Flavor</th><th>AM</th><th>PM (Scan)</th><th>Sold</th><th>Refill</th><th>End</th></tr>
+                    </thead>
+                    <tbody id="f6Body"></tbody>
+                </table>
             </div>
         </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Flavor</th>
-                        <th>AM</th>
-                        <th>PM</th>
-                        <th>Sold</th>
-                        <th>Refill</th>
-                        <th>End</th>
-                    </tr>
-                </thead>
-                <tbody id="floor6Body"></tbody>
-            </table>
-        </div>
     </div>
 
-    <!-- 1st Floor -->
-    <div class="card">
-        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-            <h2 style="font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--bissingers-brown);">1st Floor Quick Pick</h2>
-            <div class="search-wrapper">
-                <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Filter truffles..." onkeyup="filterList(this, 'floor1Body')">
+    <!-- 1st Floor View -->
+    <div id="f1-view" class="floor-view">
+        <div class="card scanner-section">
+            <h3 style="font-size: 0.8rem; margin-bottom: 10px; text-transform: uppercase;">1st Floor Batch Scan</h3>
+            <div class="loading-spinner" id="scannerLoading1"></div>
+            <button class="btn btn-ai" onclick="document.getElementById('globalCamera').click()">📷 Scan whole case</button>
+        </div>
+        <div class="card">
+            <input type="text" placeholder="Filter 1st Floor..." onkeyup="filterList(this, 'f1Body')" style="margin-bottom: 15px;">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr><th>Flavor</th><th>AM</th><th>PM (Scan)</th><th>Sold</th><th>Refill</th><th>End</th></tr>
+                    </thead>
+                    <tbody id="f1Body"></tbody>
+                </table>
             </div>
-        </div>
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Flavor</th>
-                        <th>AM</th>
-                        <th>PM</th>
-                        <th>Sold</th>
-                        <th>Refill</th>
-                        <th>End</th>
-                    </tr>
-                </thead>
-                <tbody id="floor1Body"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- Summary -->
-    <div class="card">
-        <h2 style="margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">Shift Summary</h2>
-        <div class="summary-grid">
-            <div class="summary-item"><span class="summary-val" id="f6Total">0</span><span class="summary-lbl">6th Sold</span></div>
-            <div class="summary-item"><span class="summary-val" id="f1Total">0</span><span class="summary-lbl">1st Sold</span></div>
-            <div class="summary-item"><span class="summary-val" id="combinedTotal">0</span><span class="summary-lbl">Total Sales</span></div>
-            <div class="summary-item"><span class="summary-val" id="refillTotal">0</span><span class="summary-lbl">Total Refills</span></div>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-export" onclick="exportCSV()">Export CSV</button>
-            <button class="btn btn-copy" onclick="copySummary()">Copy for Group</button>
         </div>
     </div>
 
     <script>
+        const apiKey = "";
         const f6List = ["Birthday Cake Truffle", "Wedding Cake Truffle", "Root Beer Float Truffle", "Milk Chocolate Raspberry Cream", "Dark Chocolate Candy Cane", "Dark Raspberry Truffle", "Creme Brulee Truffle", "Tiramisu Truffle", "Pineapple Upside Down Cake Truffle", "Red Velvet Cake Truffle", "Irish Cream Truffle", "Chocolate Souffle Truffle", "White Euro Truffle", "White Russian Truffle", "Chocolate Milk Shake Truffle", "Dark Chocolate Caramel Macchiato Truffle", "German Chocolate Truffle", "Dark Chocolate Cherry Cordials", "Milk Swiss Chocolate Truffle", "Dark Swiss Chocolate Truffle", "Dark Sea Salt Caramel Truffle", "Strawberry Truffle", "Strawberry Cheese Cake Truffle", "Pistachio Crown Truffle", "Italian Espresso Truffle", "Dark Chocolate Caramel", "Fresh Mint Truffle", "Dark Creme Mints", "Milk Sea Salt Caramel", "Dark Cinnamon Almond Caramel", "Milk Chocolate Swiss Pecan Cream", "Milk Vanilla Dreams", "French Vanilla B", "Milk Chocolate English Almond Toffee", "Dark Chocolate English Almond Toffee", "Dark Lemon Creme", "Raspberry Caramel Jewel"];
         const f1List = ["Birthday Cake Truffle", "Wedding Cake Truffle", "White Euro Truffle", "Dark Chocolate Sea Salt Caramel", "White Chocolate Christmas Cookie Truffle", "Dark Chocolate Candy Cane", "White Chocolate Eggnog", "Milk Chocolate Caramel Fudge Brownie", "Milk Chocolate Peanut Butter", "Milk Chocolate French Salt Caramel", "Cherry Cordials", "Milk Chocolate Swiss Pecan Creme"];
+
+        let currentFloor = 'f6';
+        let currentRowId = null;
 
         function init() {
             const dateInput = document.getElementById('trackingDate');
             if (!dateInput.value) dateInput.valueAsDate = new Date();
             updateDateDisplay();
-
-            renderRows(f6List, 'floor6Body', 'f6');
-            renderRows(f1List, 'floor1Body', 'f1');
+            renderRows(f6List, 'f6Body', 'f6');
+            renderRows(f1List, 'f1Body', 'f1');
             loadData();
+        }
+
+        function switchFloor(floor) {
+            currentFloor = floor;
+            document.querySelectorAll('.floor-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`${floor}-view`).classList.add('active');
+            document.getElementById(`btn-${floor}`).classList.add('active');
         }
 
         function renderRows(list, containerId, prefix) {
@@ -413,7 +305,13 @@
                 row.innerHTML = `
                     <td class="flavor-name">${name}</td>
                     <td data-label="AM"><input type="number" id="${id}_am" oninput="calc('${id}')" placeholder="0"></td>
-                    <td data-label="PM"><input type="number" id="${id}_pm" oninput="calc('${id}')" placeholder="0"></td>
+                    <td data-label="PM">
+                        <div class="pm-cell">
+                            <input type="number" id="${id}_pm" oninput="calc('${id}')" placeholder="0">
+                            <button class="btn-row-scan" onclick="triggerRowScan('${id}', '${name}')">📷 Scan</button>
+                            <div class="loading-spinner" id="${id}_loading" style="margin:0;"></div>
+                        </div>
+                    </td>
                     <td data-label="Sold" class="calculated" id="${id}_sold">0</td>
                     <td data-label="Refill"><input type="number" id="${id}_refill" oninput="calc('${id}')" placeholder="0"></td>
                     <td data-label="End" class="calculated" id="${id}_end">0</td>
@@ -422,95 +320,131 @@
             });
         }
 
+        function triggerRowScan(id, flavor) {
+            currentRowId = { id, flavor };
+            document.getElementById('rowCamera').click();
+        }
+
+        async function handleRowImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file || !currentRowId) return;
+            const loader = document.getElementById(`${currentRowId.id}_loading`);
+            loader.style.display = 'block';
+            try {
+                const base64 = await toBase64(file);
+                const count = await scanSingleFlavor(base64.split(',')[1], currentRowId.flavor);
+                if (count !== null) {
+                    document.getElementById(`${currentRowId.id}_pm`).value = count;
+                    calc(currentRowId.id);
+                    showToast(`Updated ${currentRowId.flavor}`);
+                }
+            } catch (e) { showToast("Row scan failed"); }
+            finally { loader.style.display = 'none'; currentRowId = null; }
+        }
+
+        async function scanSingleFlavor(base64, flavor) {
+            const prompt = `Identify counts for the truffle flavor: "${flavor}". Return ONLY a number.`;
+            const payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: base64 } }] }] };
+            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method: 'POST', body: JSON.stringify(payload) });
+            const data = await resp.json();
+            const text = data.candidates[0].content.parts[0].text.trim();
+            const num = parseInt(text.replace(/\D/g,''));
+            return isNaN(num) ? null : num;
+        }
+
+        async function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const loader = currentFloor === 'f6' ? document.getElementById('scannerLoading') : document.getElementById('scannerLoading1');
+            loader.style.display = 'block';
+            try {
+                const base64 = await toBase64(file);
+                const results = await scanTrufflePlate(base64.split(',')[1]);
+                applyAIScanResults(results);
+                showToast(`${currentFloor.toUpperCase()} Batch Scan Complete`);
+            } catch (e) { showToast("Batch scan failed"); }
+            finally { loader.style.display = 'none'; }
+        }
+
+        async function scanTrufflePlate(base64) {
+            const list = currentFloor === 'f6' ? f6List : f1List;
+            const prompt = `Identify counts for: ${list.join(", ")}. Respond ONLY JSON: {"results": [{"flavor": "Name", "count": 5}]}`;
+            const payload = { contents: [{ parts: [{ text: prompt }, { inlineData: { mimeType: "image/png", data: base64 } }] }], generationConfig: { responseMimeType: "application/json" } };
+            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method: 'POST', body: JSON.stringify(payload) });
+            const data = await resp.json();
+            return JSON.parse(data.candidates[0].content.parts[0].text);
+        }
+
+        function applyAIScanResults(data) {
+            (data.results || []).forEach(item => {
+                const list = currentFloor === 'f6' ? f6List : f1List;
+                const idx = list.indexOf(item.flavor);
+                if (idx !== -1) {
+                    document.getElementById(`${currentFloor}_${idx}_pm`).value = item.count;
+                    calc(`${currentFloor}_${idx}`);
+                }
+            });
+            saveData();
+        }
+
+        function toBase64(file) { return new Promise(r => { const reader = new FileReader(); reader.onload = () => r(reader.result); reader.readAsDataURL(file); }); }
+
         function calc(id) {
             const am = parseInt(document.getElementById(`${id}_am`).value) || 0;
             const pm = parseInt(document.getElementById(`${id}_pm`).value) || 0;
             const refill = parseInt(document.getElementById(`${id}_refill`).value) || 0;
-            
             const sold = am - pm;
             const soldEl = document.getElementById(`${id}_sold`);
             soldEl.textContent = sold;
             soldEl.className = sold < 0 ? 'calculated error' : 'calculated';
-
             document.getElementById(`${id}_end`).textContent = pm + refill;
-            updateTotals();
             saveData();
-        }
-
-        function updateTotals() {
-            const sumSold = (prefix, list) => list.reduce((acc, _, i) => acc + (parseInt(document.getElementById(`${prefix}_${i}_sold`).textContent) || 0), 0);
-            const sumRefill = (prefix, list) => list.reduce((acc, _, i) => acc + (parseInt(document.getElementById(`${prefix}_${i}_refill`).value) || 0), 0);
-
-            const f6S = sumSold('f6', f6List);
-            const f1S = sumSold('f1', f1List);
-            const ref = sumRefill('f6', f6List) + sumRefill('f1', f1List);
-
-            document.getElementById('f6Total').textContent = f6S;
-            document.getElementById('f1Total').textContent = f1S;
-            document.getElementById('combinedTotal').textContent = f6S + f1S;
-            document.getElementById('refillTotal').textContent = ref;
         }
 
         function saveData() {
-            const data = {
-                date: document.getElementById('trackingDate').value,
-                open: document.getElementById('openingMod').value,
-                close: document.getElementById('closingMod').value,
-                f6: getValues('f6', f6List),
-                f1: getValues('f1', f1List)
-            };
-            localStorage.setItem('truffle_data', JSON.stringify(data));
-        }
-
-        function getValues(prefix, list) {
-            return list.map((_, i) => ({
-                am: document.getElementById(`${prefix}_${i}_am`).value,
-                pm: document.getElementById(`${prefix}_${i}_pm`).value,
-                ref: document.getElementById(`${prefix}_${i}_refill`).value,
-                locked: document.getElementById(`${prefix}_${i}_am`).disabled
+            const getVals = (p, list) => list.map((_, i) => ({
+                am: document.getElementById(`${p}_${i}_am`).value,
+                pm: document.getElementById(`${p}_${i}_pm`).value,
+                ref: document.getElementById(`${p}_${i}_refill`).value,
+                locked: document.getElementById(`${p}_${i}_am`).disabled
             }));
+            const data = { date: document.getElementById('trackingDate').value, open: document.getElementById('openingMod').value, f6: getVals('f6', f6List), f1: getVals('f1', f1List) };
+            localStorage.setItem('truffle_tabbed_v1', JSON.stringify(data));
         }
 
         function loadData() {
-            const raw = localStorage.getItem('truffle_data');
+            const raw = localStorage.getItem('truffle_tabbed_v1');
             if (!raw) return;
             const data = JSON.parse(raw);
-            
             document.getElementById('trackingDate').value = data.date;
             document.getElementById('openingMod').value = data.open;
-            document.getElementById('closingMod').value = data.close;
             updateDateDisplay();
-
-            if(data.f6) setValues('f6', data.f6);
-            if(data.f1) setValues('f1', data.f1);
-            updateTotals();
+            const setVals = (p, items) => items.forEach((item, i) => {
+                const id = `${p}_${i}`;
+                if(!document.getElementById(`${id}_am`)) return;
+                document.getElementById(`${id}_am`).value = item.am;
+                document.getElementById(`${id}_pm`).value = item.pm;
+                document.getElementById(`${id}_refill`).value = item.ref;
+                if(item.locked) document.getElementById(`${id}_am`).disabled = true;
+                calc(id);
+            });
+            if(data.f6) setVals('f6', data.f6);
+            if(data.f1) setVals('f1', data.f1);
         }
 
-        function setValues(prefix, items) {
-            items.forEach((item, i) => {
-                const amEl = document.getElementById(`${prefix}_${i}_am`);
-                if(amEl) {
-                    amEl.value = item.am;
-                    document.getElementById(`${prefix}_${i}_pm`).value = item.pm;
-                    document.getElementById(`${prefix}_${i}_refill`).value = item.ref;
-                    if (item.locked) amEl.disabled = true;
-                    calc(`${prefix}_${i}`);
-                }
-            });
+        function updateDateDisplay() {
+            const d = new Date(document.getElementById('trackingDate').value);
+            document.getElementById('displayDate').textContent = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
         }
 
         function lockAM() {
-            if (!confirm("Lock morning counts?")) return;
+            if(!confirm("Lock morning counts?")) return;
             document.querySelectorAll('input[id$="_am"]').forEach(el => el.disabled = true);
             saveData();
-            showToast("Morning Counts Locked");
+            showToast("Morning counts locked");
         }
 
-        function clearAll() {
-            if (!confirm("Reset all data?")) return;
-            localStorage.clear();
-            location.reload();
-        }
+        function clearAll() { if(!confirm("Clear all data?")) return; localStorage.clear(); location.reload(); }
 
         function filterList(input, bodyId) {
             const term = input.value.toLowerCase();
@@ -519,46 +453,6 @@
                 const name = row.querySelector('.flavor-name').textContent.toLowerCase();
                 row.style.display = name.includes(term) ? "" : "none";
             }
-        }
-
-        function updateDateDisplay() {
-            const dateInput = document.getElementById('trackingDate').value;
-            if (!dateInput) return;
-            const d = new Date(dateInput);
-            document.getElementById('displayDate').textContent = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
-        }
-
-        function copySummary() {
-            const date = document.getElementById('displayDate').textContent;
-            const total = document.getElementById('combinedTotal').textContent;
-            const openMod = document.getElementById('openingMod').value || "N/A";
-            const closeMod = document.getElementById('closingMod').value || "N/A";
-            
-            const text = `Bissinger's Macy's Herald Square\nInventory Summary: ${date}\n------------------\nOpening MOD: ${openMod}\nClosing MOD: ${closeMod}\n------------------\nTotal Sold: ${total}\n6th Floor: ${document.getElementById('f6Total').textContent}\n1st Floor: ${document.getElementById('f1Total').textContent}\nRefills Added: ${document.getElementById('refillTotal').textContent}`;
-            
-            const el = document.createElement('textarea');
-            el.value = text;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            showToast("Summary Copied to Clipboard");
-        }
-
-        function exportCSV() {
-            let csv = "Flavor,AM,PM,Sold,Refill,End\n";
-            const addRows = (list, prefix) => list.forEach((name, i) => {
-                csv += `"${name}",${document.getElementById(`${prefix}_${i}_am`).value || 0},${document.getElementById(`${prefix}_${i}_pm`).value || 0},${document.getElementById(`${prefix}_${i}_sold`).textContent},${document.getElementById(`${prefix}_${i}_refill`).value || 0},${document.getElementById(`${prefix}_${i}_end`).textContent}\n`;
-            });
-            csv += "6TH FLOOR\n"; addRows(f6List, 'f6');
-            csv += "\n1ST FLOOR\n"; addRows(f1List, 'f1');
-            
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Bissingers_Inventory_${document.getElementById('trackingDate').value}.csv`;
-            a.click();
         }
 
         function showToast(msg) {
