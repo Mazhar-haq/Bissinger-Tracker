@@ -92,7 +92,7 @@
         th { padding: 8px 4px; text-align: center; font-size: 0.6rem; text-transform: uppercase; }
         th:first-child { text-align: left; padding-left: 10px; }
         td { padding: 8px 4px; border-bottom: 1px solid #f0f0f0; text-align: center; }
-        td:first-child { text-align: left; padding-left: 10px; font-size: 0.8rem; font-weight: 600; }
+        td:first-child { text-align: left; padding-left: 10px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
 
         .count-input {
             width: 50px;
@@ -100,27 +100,6 @@
             padding: 6px 2px;
             font-size: 0.9rem;
             border: 1px solid #eee;
-        }
-
-        .refill-cell {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
-        .quick-btns {
-            display: flex;
-            gap: 2px;
-        }
-        .q-btn {
-            background: var(--bissingers-gold);
-            border: none;
-            color: var(--bissingers-brown);
-            font-size: 0.6rem;
-            padding: 2px 4px;
-            border-radius: 2px;
-            cursor: pointer;
-            font-weight: bold;
         }
 
         .calculated { font-weight: bold; font-size: 0.9rem; color: var(--bissingers-brown); }
@@ -172,11 +151,7 @@
             border: none;
             padding: 8px 12px;
             border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 5px;
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-top: 5px;
         }
 
         .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 12px 24px; border-radius: 4px; opacity: 0; transition: opacity 0.3s; z-index: 1001; pointer-events: none; white-space: nowrap; }
@@ -208,6 +183,7 @@
                 <select id="openingMod" onchange="saveData()">
                     <option value="">Select...</option>
                     <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option>
+                    <option>Associate</option>
                 </select>
             </div>
             <div class="input-group">
@@ -215,6 +191,7 @@
                 <select id="closingMod" onchange="saveData()">
                     <option value="">Select...</option>
                     <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option>
+                    <option>Associate</option>
                 </select>
             </div>
         </div>
@@ -291,32 +268,59 @@
 
     <script>
         const f6List = [
-            "Birthday Cake Truffle", "Wedding Cake Truffle", "Root Beer Float Truffle", 
-            "Milk Chocolate Raspberry Cream", "Dark Chocolate Candy Cane", 
-            "Dark Chocolate maple Pecan Cream", "Creme Brulee Truffle", 
-            "Tiramisu Truffle", "Pineapple Upside Down Cake Truffle", "Red Velvet Cake Truffle", 
-            "Irish Cream Truffle", "Chocolate Souffle Truffle", "White Euro Truffle", 
-            "White Russian Truffle", "Chocolate Milk Shake Truffle", 
-            "Dark Chocolate Caramel Macchiato Truffle", "German Chocolate Truffle", 
-            "Milk Swiss Chocolate Truffle", "Dark Swiss Chocolate Truffle", 
-            "Dark Sea Salt Caramel Truffle", "Milk Chocolate Raspberry Cream", 
-            "Strawberry Cheese Cake Truffle", "Pistachio Crown Truffle", "Italian Espresso Truffle", 
-            "Dark Chocolate Caramel", "Fresh Mint Truffle", "Dark Creme Mints", 
-            "Milk Sea Salt Caramel", "Dark Cinnamon Almond Caramel", 
-            "Milk Chocolate Swiss Pecan Cream", "Milk Vanilla Dreams", "French Vanilla B", 
-            "Milk Chocolate English Almond Toffee", "Dark Chocolate English Almond Toffee", 
-            "Dark Lemon Creme", "Raspberry Caramel Jewel"
+            "BIRTHDAY CAKE TRUFFLE", 
+            "WEDDING CAKE TRUFFLE", 
+            "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", 
+            "ROOT BEER FLOAT TRUFFLE", 
+            "STRAWBERRY TRUFFLE", 
+            "STRAWBERRY CHEESECAKE TRUFFLE", 
+            "CRÈME BRÛLÉE TRUFFLE", 
+            "TIRAMISU TRUFFLE", 
+            "PINEAPPLE UPSIDE DOWN TRUFFLE", 
+            "RED VELVET CAKE TRUFFLE", 
+            "IRISH CREAM TRUFFLE", 
+            "DARK CHOCOLATE CANDY CANE TRUFFLE", 
+            "CHOCOLATE SOUFFLÉ TRUFFLE", 
+            "WHITE EURO TRUFFLE", 
+            "WHITE RUSSIAN TRUFFLE", 
+            "CHOCOLATE MILKSHAKE TRUFFLE", 
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", 
+            "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", 
+            "GERMAN CHOCOLATE TRUFFLE", 
+            "MILK SWISS CHOCOLATE TRUFFLE", 
+            "DARK SWISS CHOCOLATE TRUFFLE", 
+            "DARK SEA SALT CARAMEL TRUFFLE", 
+            "MILK CHOCOLATE RASPBERRY CREAM", 
+            "MILK CHOCOLATE ORANGE CREAM", 
+            "DARK CHOCOLATE MAPLE PECAN CREAM", 
+            "PISTACHIO CROWN TRUFFLE", 
+            "ITALIAN ESPRESSO TRUFFLE", 
+            "DARK CHOCOLATE CARAMEL", 
+            "FRESH MINT TRUFFLE", 
+            "DARK CREAM MINT", 
+            "MILK SEA SALT CARAMEL", 
+            "DARK CINNAMON ALMOND CARAMEL", 
+            "MILK CHOCOLATE SWISS PECAN CREAM", 
+            "MILK VANILLA DREAM", 
+            "FRENCH VANILLA \"B\"", 
+            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", 
+            "DARK CHOCOLATE ENGLISH ALMOND TOFFEE", 
+            "LEMON TEARDROP TRUFFLE", 
+            "RASPBERRY CARAMEL JEWEL"
         ];
         
         const f1List = [
-            "Birthday Cake Truffle", "Wedding Cake Truffle", "White Euro Truffle", 
-            "Dark Chocolate Sea Salt Caramel", 
-            "Tiramisu Truffle",
-            "White Chocolate Christmas Cookie Truffle", 
-            "Dark Chocolate Candy Cane", "White Chocolate Eggnog", 
-            "Milk Chocolate Caramel Fudge Brownie", "Milk Chocolate Peanut Butter", 
-            "Milk Chocolate French Salt Caramel", 
-            "Milk Chocolate Swiss Pecan Creme"
+            "BIRTHDAY CAKE TRUFFLE", 
+            "WEDDING CAKE TRUFFLE", 
+            "WHITE EURO TRUFFLE", 
+            "DARK CHOCOLATE SEA SALT CARAMEL TRUFFLE", 
+            "MILK CHOCOLATE TIRAMISU TRUFFLE",
+            "DARK CHOCOLATE FRENCH VANILLA \"B\"", 
+            "DARK CHOCOLATE RASPBERRY CARAMEL JEWEL", 
+            "PISTACHIO CROWN TRUFFLE", 
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", 
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL", 
+            "MILK CHOCOLATE SWISS PECAN CREAM"
         ];
 
         let currentFloor = 'f6';
@@ -339,26 +343,12 @@
                     <td>${name}</td>
                     <td><input type="number" id="${id}_am" class="count-input" oninput="calc('${id}')" placeholder="0"></td>
                     <td><input type="number" id="${id}_pm" class="count-input" oninput="calc('${id}')" placeholder="0"></td>
-                    <td>
-                        <div class="refill-cell">
-                            <input type="number" id="${id}_refill" class="count-input" oninput="calc('${id}')" placeholder="0">
-                            <div class="quick-btns">
-                                <button class="q-btn" onclick="quickAdd('${id}', 1)">+1</button>
-                                <button class="q-btn" onclick="quickAdd('${id}', 6)">+6</button>
-                            </div>
-                        </div>
-                    </td>
+                    <td><input type="number" id="${id}_refill" class="count-input" oninput="calc('${id}')" placeholder="0"></td>
                     <td class="sold-text" id="${id}_sold">0</td>
                     <td class="calculated" id="${id}_end">0</td>
                 `;
                 container.appendChild(row);
             });
-        }
-
-        function quickAdd(id, val) {
-            const el = document.getElementById(`${id}_refill`);
-            el.value = (parseInt(el.value) || 0) + val;
-            calc(id);
         }
 
         function calc(id) {
@@ -370,19 +360,16 @@
             const pm = parseInt(pmVal) || 0;
             const refill = parseInt(refillVal) || 0;
             
-            // End count is always calculated
             const end = pm + refill;
             const endEl = document.getElementById(`${id}_end`);
             endEl.textContent = end;
 
-            // Low stock warning
             if (end > 0 && end < 5) {
                 endEl.classList.add('low-stock');
             } else {
                 endEl.classList.remove('low-stock');
             }
 
-            // Sold only updates if PM count has a value
             const soldEl = document.getElementById(`${id}_sold`);
             if (pmVal !== "") {
                 const sold = Math.max(0, (am + refill) - pm);
@@ -397,7 +384,8 @@
 
         function updateTotals() {
             const sumEnd = (prefix, list) => list.reduce((acc, _, i) => {
-                const val = parseInt(document.getElementById(`${prefix}_${i}_end`).textContent) || 0;
+                const el = document.getElementById(`${prefix}_${i}_end`);
+                const val = el ? (parseInt(el.textContent) || 0) : 0;
                 return acc + val;
             }, 0);
 
@@ -438,11 +426,11 @@
                 f6: pack('f6', f6List),
                 f1: pack('f1', f1List)
             };
-            localStorage.setItem('biss_data_v7', JSON.stringify(data));
+            localStorage.setItem('biss_data_v13', JSON.stringify(data));
         }
 
         function loadData() {
-            const raw = localStorage.getItem('biss_data_v7');
+            const raw = localStorage.getItem('biss_data_v13');
             if (!raw) return;
             const data = JSON.parse(raw);
             document.getElementById('trackingDate').value = data.d;
@@ -450,7 +438,6 @@
             document.getElementById('closingMod').value = data.cMod || '';
             updateDateDisplay();
             
-            // Unpack 6th Floor
             data.f6.forEach((item, i) => {
                 const id = `f6_${i}`;
                 if (!document.getElementById(`${id}_am`)) return;
@@ -461,7 +448,6 @@
                 calc(id);
             });
 
-            // Unpack 1st Floor
             data.f1.forEach((item, i) => {
                 const id = `f1_${i}`;
                 if (!document.getElementById(`${id}_am`)) return;
