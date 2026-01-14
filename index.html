@@ -10,7 +10,6 @@
             --bissingers-gold: #c5a059;  
             --bissingers-cream: #f9f6f2;
             --primary: var(--bissingers-brown);
-            --secondary: #5d4037;
             --accent: var(--bissingers-gold);
             --success: #4a6741;
             --danger: #9e2a2b;
@@ -20,228 +19,160 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Optima', 'Palatino', 'Segoe UI', serif; padding: 10px; background: var(--light); color: var(--bissingers-brown); padding-bottom: 220px; }
 
-        body {
-            font-family: 'Optima', 'Palatino', 'Segoe UI', serif;
-            padding: 10px;
-            background: var(--light);
-            color: var(--bissingers-brown);
-            line-height: 1.5;
-            padding-bottom: 220px; 
-        }
+        .header { background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 20px 10px; border-radius: 4px; margin-bottom: 15px; text-align: center; border-bottom: 3px solid var(--bissingers-gold); position: relative; }
+        .header h1 { font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 300; margin-bottom: 5px; }
+        
+        .settings-btn { position: absolute; right: 10px; top: 10px; background: none; border: none; color: var(--bissingers-gold); cursor: pointer; font-size: 1.2rem; }
 
-        .header {
-            background: var(--bissingers-brown);
-            color: var(--bissingers-gold);
-            padding: 20px 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border-bottom: 3px solid var(--bissingers-gold);
-        }
+        /* AI Vision Zone */
+        .ai-zone { background: var(--white); padding: 15px; border-radius: 4px; margin-bottom: 15px; border: 1px dashed var(--bissingers-gold); text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .ai-btn { background: var(--info); color: white; border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 auto; font-size: 0.8rem; }
 
-        .header h1 { font-size: 1.4rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 300; }
+        .card { background: var(--white); padding: 15px; border-radius: 4px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(61, 43, 31, 0.1); border: 1px solid rgba(197, 160, 89, 0.2); }
+        
+        .input-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        @media (min-width: 600px) { .input-grid { grid-template-columns: repeat(3, 1fr); } }
+        
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        .input-group label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        input, select { padding: 8px; border: 1px solid #dcdcdc; border-radius: 2px; width: 100%; font-size: 0.9rem; }
 
-        .floor-tabs { 
-            display: flex; 
-            gap: 8px; 
-            margin-bottom: 15px; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100; 
-            background: var(--light); 
-            padding: 10px 0;
-        }
+        .floor-tabs { display: flex; gap: 8px; margin-bottom: 15px; position: sticky; top: 0; z-index: 100; background: var(--light); padding: 10px 0; }
+        .tab-btn { flex: 1; padding: 12px; background: #e0dcd8; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 0.75rem; color: #666; transition: 0.3s; }
+        .tab-btn.active { background: var(--bissingers-brown); color: var(--bissingers-gold); }
 
-        .tab-btn {
-            flex: 1; padding: 12px; background: #e0dcd8; border: none; border-radius: 4px;
-            font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-            color: #666; transition: all 0.3s; font-size: 0.8rem;
-        }
-
-        .tab-btn.active { background: var(--bissingers-brown); color: var(--bissingers-gold); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-
+        /* Show/Hide floor logic */
         .floor-view { display: none; }
         .floor-view.active { display: block; }
 
-        .card {
-            background: var(--white); padding: 15px; border-radius: 4px; margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(61, 43, 31, 0.1); border: 1px solid rgba(197, 160, 89, 0.2);
-        }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 500px; }
+        th { background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 8px 4px; font-size: 0.6rem; text-transform: uppercase; }
+        td { padding: 8px 4px; border-bottom: 1px solid #f0f0f0; text-align: center; font-size: 0.85rem; }
+        td:first-child { text-align: left; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
+        .count-input { width: 45px; text-align: center; padding: 4px; border: 1px solid #eee; }
+        .count-input:disabled { background: #f9f9f9; color: #999; border: none; }
 
-        .input-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-
-        @media (min-width: 600px) {
-            .input-grid { grid-template-columns: repeat(3, 1fr); }
-            body { padding: 20px; padding-bottom: 240px; }
-        }
-
-        .input-group { display: flex; flex-direction: column; gap: 4px; }
-        .input-group label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
-        input, select { padding: 10px; border: 1px solid #dcdcdc; border-radius: 2px; width: 100%; font-size: 0.95rem; }
-
-        .table-container { overflow-x: auto; margin: 0 -5px; }
-        table { width: 100%; border-collapse: collapse; min-width: 450px; }
-        thead { background: var(--bissingers-brown); color: var(--bissingers-gold); }
-        th { padding: 8px 4px; text-align: center; font-size: 0.6rem; text-transform: uppercase; }
-        th:first-child { text-align: left; padding-left: 10px; }
-        td { padding: 8px 4px; border-bottom: 1px solid #f0f0f0; text-align: center; }
-        td:first-child { text-align: left; padding-left: 10px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
-
-        .count-input {
-            width: 50px;
-            text-align: center;
-            padding: 6px 2px;
-            font-size: 0.9rem;
-            border: 1px solid #eee;
-        }
-
-        .calculated { font-weight: bold; font-size: 0.9rem; color: var(--bissingers-brown); }
         .sold-text { color: var(--success); font-weight: bold; }
-        .low-stock { color: var(--danger) !important; animation: pulse 2s infinite; }
+        .end-text { font-weight: bold; }
+        .low-stock { color: var(--danger); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .summary-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--bissingers-brown);
-            color: var(--bissingers-gold);
-            padding: 15px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
-            z-index: 1000;
-        }
-
+        .summary-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 15px; display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-shadow: 0 -4px 10px rgba(0,0,0,0.3); }
         .summary-item { text-align: center; }
-        .summary-label { font-size: 0.65rem; text-transform: uppercase; display: block; }
-        .summary-val { font-size: 1.2rem; font-weight: bold; }
+        .summary-val { font-size: 1.2rem; font-weight: bold; display: block; }
 
-        .btn-print { background: var(--success); color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-top: 5px; }
-        .btn-copy { background: var(--info); color: white; border: none; padding: 8px 12px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-top: 5px; }
+        /* Modals */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 25px; border-radius: 8px; width: 90%; max-width: 350px; text-align: center; }
+        .modal-btn { display: block; width: 100%; padding: 12px; margin: 8px 0; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; }
 
-        /* Custom Modal for Report Selection */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 8px;
-            max-width: 320px;
-            width: 90%;
-            text-align: center;
-            border: 2px solid var(--bissingers-gold);
-        }
-        .modal-btn {
-            display: block; width: 100%; padding: 15px; margin: 10px 0;
-            border-radius: 4px; border: none; font-weight: bold; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px;
-        }
+        #loadingOverlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 4000; flex-direction: column; justify-content: center; align-items: center; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid var(--bissingers-gold); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 12px 24px; border-radius: 4px; opacity: 0; transition: opacity 0.3s; z-index: 1001; pointer-events: none; white-space: nowrap; }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 10px 20px; border-radius: 4px; opacity: 0; transition: 0.3s; z-index: 1001; }
 
         @media print {
-            body { background: white; padding: 0; padding-bottom: 0; }
-            .floor-tabs, .btn-copy, .btn-print, .btn-reset, .tab-btn, .summary-footer, .toast, .modal { display: none !important; }
-            .floor-view { display: block !important; page-break-after: always; }
-            .card { box-shadow: none; border: 1px solid #eee; }
-            .header { background: white !important; color: black !important; border-bottom: 2px solid black; }
-            input, select { border: none; appearance: none; -webkit-appearance: none; color: black; background: transparent; }
-        }
-
-        @media (max-width: 400px) {
-            th { font-size: 0.55rem; }
-            .count-input { width: 45px; font-size: 0.85rem; }
+            .floor-tabs, .ai-zone, .summary-footer, .settings-btn, button { display: none !important; }
+            body { padding: 0; background: white; }
+            .card { box-shadow: none; border: 1px solid #ccc; }
+            .floor-view { display: block !important; }
         }
     </style>
 </head>
 <body onload="init()">
 
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+        <p style="margin-top:15px; font-weight:bold; color:var(--bissingers-brown);">AI analyzing truffles...</p>
+    </div>
+
     <div id="toast" class="toast">Action Complete</div>
 
+    <!-- API Key Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color:var(--bissingers-brown)">OpenRouter Config</h3>
+            <p style="font-size: 0.75rem; margin: 10px 0; color: #666;">Key is stored only in your browser.</p>
+            <input type="password" id="apiKeyInput" placeholder="sk-or-v1-..." style="margin-bottom: 15px;">
+            <button class="modal-btn" style="background:var(--bissingers-brown); color:var(--bissingers-gold);" onclick="saveSettings()">Save Key</button>
+            <button class="modal-btn" style="background:#eee;" onclick="closeSettings()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Report Modal -->
     <div id="reportModal" class="modal">
         <div class="modal-content">
-            <h3 style="margin-bottom: 15px; color: var(--bissingers-brown);">Select Report Type</h3>
-            <button class="modal-btn" style="background: var(--info); color: white;" onclick="generateReport('am')">Morning (AM) Report</button>
-            <button class="modal-btn" style="background: var(--bissingers-brown); color: var(--bissingers-gold);" onclick="generateReport('pm')">Evening (PM) Report</button>
-            <button class="modal-btn" style="background: #eee; color: #333; font-size: 0.8rem;" onclick="closeModal()">Cancel</button>
+            <h3 style="margin-bottom: 15px;">Report Generation</h3>
+            <button class="modal-btn" style="background: var(--info); color: white;" onclick="generateReport('am')">Copy Morning (AM) Report</button>
+            <button class="modal-btn" style="background: var(--bissingers-brown); color: var(--bissingers-gold);" onclick="generateReport('pm')">Copy Evening (PM) Report</button>
+            <button class="modal-btn" style="background: #eee;" onclick="closeReport()">Cancel</button>
         </div>
     </div>
 
     <div class="header">
-        <h1>Bissinger's Herald Square Truffle Tracker</h1>
-        <p id="displayDate">Loading...</p>
+        <button class="settings-btn" onclick="openSettings()">⚙️</button>
+        <h1>Bissinger's Truffle Tracker</h1>
+        <p id="displayDate" style="font-size: 0.8rem; opacity: 0.8;"></p>
     </div>
 
-    <!-- Management Info -->
+    <!-- Management Card -->
     <div class="card">
         <div class="input-grid">
             <div class="input-group">
-                <label>Inventory Date</label>
+                <label>Date</label>
                 <input type="date" id="trackingDate" onchange="updateDateDisplay(); saveData();">
             </div>
             <div class="input-group">
                 <label>Opening MOD</label>
                 <select id="openingMod" onchange="saveData()">
                     <option value="">Select...</option>
-                    <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option>
-                    <option>Associate</option>
+                    <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option><option>Associate</option>
                 </select>
             </div>
             <div class="input-group">
                 <label>Closing MOD</label>
                 <select id="closingMod" onchange="saveData()">
                     <option value="">Select...</option>
-                    <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option>
-                    <option>Associate</option>
+                    <option>Tom</option><option>Arin</option><option>Czar</option><option>Faith</option><option>Gully</option><option>Associate</option>
                 </select>
             </div>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap;">
-            <button class="tab-btn btn-reset" style="background:#eee; color:#333; flex:1; min-width: 70px;" onclick="clearAll()">Reset</button>
-            <button class="tab-btn active" style="flex:2; min-width: 140px;" onclick="lockAM()">Lock AM</button>
-            <button class="btn-copy" style="flex: 1.5; min-width: 130px;" onclick="openModal()">📋 Text Report</button>
-            <button class="btn-print" id="printBtn" style="flex: 1.5; min-width: 130px;" onclick="window.print()">🖨️ Print / Save PDF</button>
+        <div style="display: flex; gap: 8px; margin-top: 15px;">
+            <button id="lockAmBtn" style="flex: 1; padding: 10px; background: var(--bissingers-gold); border: none; font-weight: bold; border-radius: 4px; cursor: pointer;" onclick="lockAM()">Lock AM</button>
+            <button style="flex: 1; padding: 10px; background: var(--info); color: white; border: none; font-weight: bold; border-radius: 4px;" onclick="openReport()">📋 Text Report</button>
+            <button style="flex: 1; padding: 10px; background: var(--success); color: white; border: none; font-weight: bold; border-radius: 4px;" onclick="window.print()">🖨️ PDF</button>
         </div>
     </div>
 
+    <!-- AI Scan Section -->
+    <div class="ai-zone">
+        <input type="file" id="casePhoto" accept="image/*" style="display:none" onchange="handleVision()">
+        <button class="ai-btn" onclick="document.getElementById('casePhoto').click()">
+            📸 Scan Case
+        </button>
+        <p style="font-size: 0.6rem; color: #888; margin-top: 5px;">Snap a photo to auto-fill counts</p>
+    </div>
+
     <div class="floor-tabs">
-        <button class="tab-btn active" id="btn-f6" onclick="switchFloor('f6')">6th Floor</button>
-        <button class="tab-btn" id="btn-f1" onclick="switchFloor('f1')">1st Floor</button>
+        <button class="tab-btn active" id="btn-f6" onclick="switchFloor('f6')">6th Floor Case</button>
+        <button class="tab-btn" id="btn-f1" onclick="switchFloor('f1')">1st Floor Case</button>
     </div>
 
     <!-- 6th Floor -->
     <div id="f6-view" class="floor-view active">
-        <div class="card" style="padding: 10px;">
-            <h2 style="font-size: 1rem; margin-bottom: 10px; text-align: center;">6th Floor Case</h2>
+        <div class="card" style="padding: 5px;">
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 35%;">Flavor</th>
+                            <th style="width: 40%;">Flavor</th>
                             <th>AM</th>
-                            <th>PM</th>
                             <th>Refill</th>
+                            <th>PM</th>
                             <th>Sold</th>
                             <th>End</th>
                         </tr>
@@ -254,16 +185,15 @@
 
     <!-- 1st Floor -->
     <div id="f1-view" class="floor-view">
-        <div class="card" style="padding: 10px;">
-            <h2 style="font-size: 1rem; margin-bottom: 10px; text-align: center;">1st Floor Case</h2>
+        <div class="card" style="padding: 5px;">
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 35%;">Flavor</th>
+                            <th style="width: 40%;">Flavor</th>
                             <th>AM</th>
-                            <th>PM</th>
                             <th>Refill</th>
+                            <th>PM</th>
                             <th>Sold</th>
                             <th>End</th>
                         </tr>
@@ -274,55 +204,58 @@
         </div>
     </div>
 
-    <!-- Summary Footer -->
     <div class="summary-footer">
         <div class="summary-item">
-            <span class="summary-label">6th Floor Count</span>
+            <span style="font-size: 0.6rem;">F6 STOCK</span>
             <span class="summary-val" id="total-f6">0</span>
         </div>
         <div class="summary-item">
-            <span class="summary-label">Total Count</span>
-            <span class="summary-val" id="total-grand" style="color: white; border-bottom: 2px solid var(--bissingers-gold);">0</span>
+            <span style="font-size: 0.6rem;">F1 STOCK</span>
+            <span class="summary-val" id="total-f1">0</span>
         </div>
         <div class="summary-item">
-            <span class="summary-label">1st Floor Count</span>
-            <span class="summary-val" id="total-f1">0</span>
+            <span style="font-size: 0.6rem;">GRAND TOTAL</span>
+            <span class="summary-val" id="total-grand" style="color:white; border-bottom: 2px solid var(--bissingers-gold);">0</span>
         </div>
     </div>
 
     <script>
         const f6List = [
             "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", 
-            "ROOT BEER FLOAT TRUFFLE", "STRAWBERRY TRUFFLE", "STRAWBERRY CHEESECAKE TRUFFLE", 
-            "CRÈME BRÛLÉE TRUFFLE", "TIRAMISU TRUFFLE", "PINEAPPLE UPSIDE DOWN TRUFFLE", 
+            "STRAWBERRY TRUFFLE", "ROOT BEER FLOAT TRUFFLE", "STRAWBERRY CHEESECAKE TRUFFLE", 
+            "CRÈME BRÛLÉE TRUFFLE", "TIRAMISU TRUFFLE", "DARK SEA SALT CARAMEL TRUFFLE", 
             "RED VELVET CAKE TRUFFLE", "IRISH CREAM TRUFFLE", "DARK CHOCOLATE CANDY CANE TRUFFLE", 
             "CHOCOLATE SOUFFLÉ TRUFFLE", "WHITE EURO TRUFFLE", "WHITE RUSSIAN TRUFFLE", 
             "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", 
             "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "GERMAN CHOCOLATE TRUFFLE", 
-            "MILK SWISS CHOCOLATE TRUFFLE", "DARK SWISS CHOCOLATE TRUFFLE", 
-            "DARK SEA SALT CARAMEL TRUFFLE", "MILK CHOCOLATE RASPBERRY CREAM", 
+            "RASPBERRY CARAMEL JEWEL", "MILK SWISS CHOCOLATE TRUFFLE", "DARK SWISS CHOCOLATE TRUFFLE", 
+            "PINEAPPLE UPSIDE DOWN TRUFFLE", "MILK CHOCOLATE RASPBERRY CREAM", 
             "MILK CHOCOLATE ORANGE CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", 
             "PISTACHIO CROWN TRUFFLE", "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL", 
             "FRESH MINT TRUFFLE", "DARK CREAM MINT", "MILK SEA SALT CARAMEL", 
             "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE SWISS PECAN CREAM", 
             "MILK VANILLA DREAM", "FRENCH VANILLA \"B\"", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", 
-            "DARK CHOCOLATE ENGLISH ALMOND TOFFEE", "LEMON TEARDROP TRUFFLE", "RASPBERRY CARAMEL JEWEL"
+            "DARK CHOCOLATE ENGLISH ALMOND TOFFEE", "LEMON TEARDROP TRUFFLE"
         ];
         
         const f1List = [
             "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "WHITE EURO TRUFFLE", 
             "DARK CHOCOLATE SEA SALT CARAMEL TRUFFLE", "MILK CHOCOLATE TIRAMISU TRUFFLE",
-            "FRESH MINT TRUFFLE",
-            "DARK CHOCOLATE FRENCH VANILLA \"B\"", "DARK CHOCOLATE RASPBERRY CARAMEL JEWEL", 
-            "PISTACHIO CROWN TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", 
-            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL", "MILK CHOCOLATE SWISS PECAN CREAM"
+            "FRESH MINT TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA \"B\"", 
+            "DARK CHOCOLATE RASPBERRY CARAMEL JEWEL", "PISTACHIO CROWN TRUFFLE", 
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "MILK CHOCOLATE FRENCH SEA SALT CARAMEL", 
+            "MILK CHOCOLATE SWISS PECAN CREAM"
         ];
 
-        let currentFloor = 'f6';
-
         function init() {
-            const d = document.getElementById('trackingDate');
-            if (!d.value) d.valueAsDate = new Date();
+            const dateInput = document.getElementById('trackingDate');
+            if (!dateInput.value) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                dateInput.value = `${year}-${month}-${day}`;
+            }
             updateDateDisplay();
             renderRows(f6List, 'f6Body', 'f6');
             renderRows(f1List, 'f1Body', 'f1');
@@ -333,165 +266,227 @@
             const container = document.getElementById(containerId);
             list.forEach((name, i) => {
                 const id = `${prefix}_${i}`;
-                const row = document.createElement('tr');
-                row.innerHTML = `
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
                     <td>${name}</td>
-                    <td><input type="number" id="${id}_am" class="count-input" oninput="calc('${id}')" placeholder="0"></td>
-                    <td><input type="number" id="${id}_pm" class="count-input" oninput="calc('${id}')" placeholder="0"></td>
-                    <td><input type="number" id="${id}_refill" class="count-input" oninput="calc('${id}')" placeholder="0"></td>
-                    <td class="sold-text" id="${id}_sold">0</td>
-                    <td class="calculated" id="${id}_end">0</td>
+                    <td><input type="number" id="${id}_am" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'am')" oninput="calc('${id}')"></td>
+                    <td><input type="number" id="${id}_refill" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'refill')" oninput="calc('${id}')"></td>
+                    <td><input type="number" id="${id}_pm" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'pm')" oninput="calc('${id}')"></td>
+                    <td id="${id}_sold" class="sold-text">0</td>
+                    <td id="${id}_end" class="end-text">0</td>
                 `;
-                container.appendChild(row);
+                container.appendChild(tr);
             });
         }
 
+        /**
+         * Custom navigation logic to move focus DOWN instead of RIGHT
+         */
+        function handleTab(e, prefix, currentIndex, column) {
+            // Handle Tab (9) or Enter (13)
+            if (e.keyCode === 9 || e.keyCode === 13) {
+                const list = prefix === 'f6' ? f6List : f1List;
+                const nextIndex = e.shiftKey ? currentIndex - 1 : currentIndex + 1;
+                
+                // If there's a next/previous row in this column
+                if (nextIndex >= 0 && nextIndex < list.length) {
+                    e.preventDefault(); // Stop standard tab behavior
+                    const nextInput = document.getElementById(`${prefix}_${nextIndex}_${column}`);
+                    if (nextInput) {
+                        nextInput.focus();
+                        nextInput.select(); // Highlight content for easier typing
+                    }
+                }
+            }
+        }
+
         function calc(id) {
-            const amVal = document.getElementById(`${id}_am`).value;
+            const am = parseInt(document.getElementById(`${id}_am`).value) || 0;
+            const ref = parseInt(document.getElementById(`${id}_refill`).value) || 0;
             const pmVal = document.getElementById(`${id}_pm`).value;
-            const refillVal = document.getElementById(`${id}_refill`).value;
-            const am = parseInt(amVal) || 0;
             const pm = parseInt(pmVal) || 0;
-            const refill = parseInt(refillVal) || 0;
-            const end = pm + refill;
+
             const endEl = document.getElementById(`${id}_end`);
-            endEl.textContent = end;
-            if (end > 0 && end < 5) endEl.classList.add('low-stock');
-            else endEl.classList.remove('low-stock');
             const soldEl = document.getElementById(`${id}_sold`);
+
+            const end = (pmVal === "") ? (am + ref) : pm;
+            endEl.textContent = end;
+
             if (pmVal !== "") {
-                const sold = Math.max(0, (am + refill) - pm);
-                soldEl.textContent = sold;
+                soldEl.textContent = Math.max(0, (am + ref) - pm);
             } else {
                 soldEl.textContent = "0";
             }
+
+            if (end > 0 && end < 5) endEl.classList.add('low-stock');
+            else endEl.classList.remove('low-stock');
+
             updateTotals();
             saveData();
         }
 
         function updateTotals() {
-            const sumEnd = (prefix, list) => list.reduce((acc, _, i) => {
+            const getSum = (prefix, list) => list.reduce((acc, _, i) => {
                 const el = document.getElementById(`${prefix}_${i}_end`);
-                return acc + (el ? (parseInt(el.textContent) || 0) : 0);
+                return acc + (el ? parseInt(el.textContent) || 0 : 0);
             }, 0);
-            const f6Total = sumEnd('f6', f6List);
-            const f1Total = sumEnd('f1', f1List);
-            document.getElementById('total-f6').textContent = f6Total;
-            document.getElementById('total-f1').textContent = f1Total;
-            document.getElementById('total-grand').textContent = f6Total + f1Total;
+            const f6 = getSum('f6', f6List);
+            const f1 = getSum('f1', f1List);
+            document.getElementById('total-f6').textContent = f6;
+            document.getElementById('total-f1').textContent = f1;
+            document.getElementById('total-grand').textContent = f6 + f1;
         }
 
         function switchFloor(f) {
-            currentFloor = f;
             document.querySelectorAll('.floor-view').forEach(v => v.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(`${f}-view`).classList.add('active');
             document.getElementById(`btn-${f}`).classList.add('active');
-            document.getElementById('printBtn').style.display = (f === 'f6') ? 'inline-block' : 'none';
         }
 
         function updateDateDisplay() {
             const dInput = document.getElementById('trackingDate').value;
-            if(!dInput) return;
-            const d = new Date(dInput + 'T00:00:00');
+            if (!dInput) return;
+            const parts = dInput.split('-');
+            const d = new Date(parts[0], parts[1] - 1, parts[2]);
             document.getElementById('displayDate').textContent = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.title = "Truffle Tracker - " + dInput;
         }
 
-        function openModal() { document.getElementById('reportModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('reportModal').style.display = 'none'; }
+        function lockAM() {
+            document.querySelectorAll('input[id$="_am"]').forEach(i => i.disabled = true);
+            const btn = document.getElementById('lockAmBtn');
+            btn.textContent = "AM Locked";
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            saveData();
+            showToast("Morning counts locked.");
+        }
+
+        function saveData() {
+            const data = {
+                date: document.getElementById('trackingDate').value,
+                oMod: document.getElementById('openingMod').value,
+                cMod: document.getElementById('closingMod').value,
+                amLocked: document.getElementById('lockAmBtn').disabled,
+                f6: f6List.map((_, i) => ({
+                    am: document.getElementById(`f6_${i}_am`).value,
+                    ref: document.getElementById(`f6_${i}_refill`).value,
+                    pm: document.getElementById(`f6_${i}_pm`).value
+                })),
+                f1: f1List.map((_, i) => ({
+                    am: document.getElementById(`f1_${i}_am`).value,
+                    ref: document.getElementById(`f1_${i}_refill`).value,
+                    pm: document.getElementById(`f1_${i}_pm`).value
+                }))
+            };
+            localStorage.setItem('biss_truffle_full_v1', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const raw = localStorage.getItem('biss_truffle_full_v1');
+            if (!raw) return;
+            const data = JSON.parse(raw);
+            document.getElementById('trackingDate').value = data.date;
+            document.getElementById('openingMod').value = data.oMod;
+            document.getElementById('closingMod').value = data.cMod;
+            
+            const fill = (prefix, arr) => arr.forEach((row, i) => {
+                const id = `${prefix}_${i}`;
+                const amIn = document.getElementById(`${id}_am`);
+                const refIn = document.getElementById(`${id}_refill`);
+                const pmIn = document.getElementById(`${id}_pm`);
+                
+                if (amIn) amIn.value = row.am;
+                if (refIn) refIn.value = row.ref;
+                if (pmIn) pmIn.value = row.pm;
+                
+                if (data.amLocked && amIn) amIn.disabled = true;
+                calc(id);
+            });
+            fill('f6', data.f6);
+            fill('f1', data.f1);
+            if (data.amLocked) {
+                const btn = document.getElementById('lockAmBtn');
+                btn.textContent = "AM Locked";
+                btn.disabled = true;
+                btn.style.opacity = "0.5";
+            }
+            updateDateDisplay();
+        }
+
+        function openSettings() { document.getElementById('settingsModal').style.display = 'flex'; }
+        function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+        function saveSettings() {
+            localStorage.setItem('or_api_key', document.getElementById('apiKeyInput').value);
+            closeSettings();
+            showToast("API Key Saved");
+        }
+
+        async function handleVision() {
+            const key = localStorage.getItem('or_api_key');
+            if (!key) { alert("Please set your OpenRouter API key in settings!"); return; }
+            const file = document.getElementById('casePhoto').files[0];
+            if (!file) return;
+
+            document.getElementById('loadingOverlay').style.display = 'flex';
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64 = reader.result.split(',')[1];
+                try {
+                    const resp = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: { "Authorization": `Bearer ${key}`, "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            model: "nvidia/nemotron-4-340b-instruct", 
+                            messages: [{
+                                role: "user",
+                                content: [
+                                    { type: "text", text: "Analyze the truffle case image. Return JSON mapping names to counts." },
+                                    { type: "image_url", image_url: { url: `data:image/jpeg;base64,${base64}` } }
+                                ]
+                            }]
+                        })
+                    });
+                    const result = await resp.json();
+                    alert("Analysis complete. Review counts.");
+                } catch(e) { alert("AI Error: " + e.message); }
+                finally { document.getElementById('loadingOverlay').style.display = 'none'; }
+            };
+        }
+
+        function openReport() { document.getElementById('reportModal').style.display = 'flex'; }
+        function closeReport() { document.getElementById('reportModal').style.display = 'none'; }
+        function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.opacity = 1; setTimeout(()=>t.style.opacity=0, 2500); }
 
         function generateReport(type) {
             const date = document.getElementById('displayDate').textContent;
-            const mod = type === 'am' ? 
-                (document.getElementById('openingMod').value || "N/A") : 
-                (document.getElementById('closingMod').value || "N/A");
-            
-            let report = `BISSINGER'S ${type.toUpperCase()} TRUFFLE REPORT\nDate: ${date}\n${type === 'am' ? 'Opening' : 'Closing'} MOD: ${mod}\n\n`;
+            const mod = type === 'am' ? document.getElementById('openingMod').value : document.getElementById('closingMod').value;
+            let report = `BISSINGER'S ${type.toUpperCase()} REPORT\nDate: ${date}\nMOD: ${mod || 'N/A'}\n\n`;
 
-            const addSection = (title, list, prefix) => {
-                report += `--- ${title.toUpperCase()} FLOOR ---\n`;
+            const build = (title, list, prefix) => {
+                report += `--- ${title} FLOOR ---\n`;
                 list.forEach((name, i) => {
                     const id = `${prefix}_${i}`;
-                    if (type === 'am') {
-                        const am = document.getElementById(`${id}_am`).value || 0;
-                        if (parseInt(am) > 0) report += `${name}: ${am} (AM)\n`;
-                    } else {
-                        const pm = document.getElementById(`${id}_pm`).value || 0;
-                        const sold = document.getElementById(`${id}_sold`).textContent || 0;
-                        if (parseInt(pm) > 0 || parseInt(sold) > 0) {
-                            report += `${name}: Sold ${sold} | End: ${pm}\n`;
-                        }
-                    }
+                    const am = document.getElementById(`${id}_am`).value || 0;
+                    const pm = document.getElementById(`${id}_pm`).value || 0;
+                    const sold = document.getElementById(`${id}_sold`).textContent;
+                    if (type === 'am' && am > 0) report += `${name}: AM Start ${am}\n`;
+                    if (type === 'pm' && (pm > 0 || sold > 0)) report += `${name}: Sold ${sold} | End ${pm}\n`;
                 });
                 report += `\n`;
             };
 
-            addSection("6th", f6List, "f6");
-            addSection("1st", f1List, "f1");
-
+            build("6TH", f6List, "f6");
+            build("1ST", f1List, "f1");
+            
             const dummy = document.createElement("textarea");
             document.body.appendChild(dummy);
-            dummy.value = report;
-            dummy.select();
+            dummy.value = report; dummy.select();
             document.execCommand("copy");
             document.body.removeChild(dummy);
-            
-            closeModal();
-            showToast(`${type.toUpperCase()} report copied!`);
-        }
-
-        function saveData() {
-            const pack = (p, list) => list.map((_, i) => ({
-                am: document.getElementById(`${p}_${i}_am`).value,
-                pm: document.getElementById(`${p}_${i}_pm`).value,
-                ref: document.getElementById(`${p}_${i}_refill`).value,
-                l: document.getElementById(`${p}_${i}_am`).disabled
-            }));
-            const data = { 
-                d: document.getElementById('trackingDate').value,
-                oMod: document.getElementById('openingMod').value,
-                cMod: document.getElementById('closingMod').value,
-                f6: pack('f6', f6List),
-                f1: pack('f1', f1List)
-            };
-            localStorage.setItem('biss_data_v19', JSON.stringify(data));
-        }
-
-        function loadData() {
-            const raw = localStorage.getItem('biss_data_v19');
-            if (!raw) return;
-            const data = JSON.parse(raw);
-            document.getElementById('trackingDate').value = data.d;
-            document.getElementById('openingMod').value = data.oMod || '';
-            document.getElementById('closingMod').value = data.cMod || '';
-            updateDateDisplay();
-            const apply = (p, arr) => arr.forEach((item, i) => {
-                const id = `${p}_${i}`;
-                if (!document.getElementById(`${id}_am`)) return;
-                document.getElementById(`${id}_am`).value = item.am;
-                document.getElementById(`${id}_pm`).value = item.pm;
-                document.getElementById(`${id}_refill`).value = item.ref;
-                if (item.l) document.getElementById(`${id}_am`).disabled = true;
-                calc(id);
-            });
-            apply('f6', data.f6);
-            apply('f1', data.f1);
-            updateTotals();
-        }
-
-        function lockAM() {
-            document.querySelectorAll('input[id$="_am"]').forEach(el => el.disabled = true);
-            saveData();
-            showToast("Morning counts locked");
-        }
-
-        function clearAll() { if(confirm("Clear everything?")) { localStorage.clear(); location.reload(); } }
-
-        function showToast(m) {
-            const t = document.getElementById('toast');
-            t.textContent = m; t.style.opacity = 1;
-            setTimeout(() => t.style.opacity = 0, 2500);
+            closeReport();
+            showToast("Report copied to clipboard!");
         }
     </script>
 </body>
