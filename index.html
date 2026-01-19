@@ -236,7 +236,7 @@
     <script>
         const f6List = [
             "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", 
-            "STRAWBERRY TRUFFLE", "ROOT BEER FLOAT TRUFFLE", "STRAWBERRY CHEESECAKE TRUFFLE", 
+            "STRAWBERRY TRUFFLE", "DARK RASPBERRY TRUFFLE", "ROOT BEER FLOAT TRUFFLE", "STRAWBERRY CHEESECAKE TRUFFLE", 
             "CRÈME BRÛLÉE TRUFFLE", "TIRAMISU TRUFFLE", "DARK SEA SALT CARAMEL TRUFFLE", 
             "RED VELVET CAKE TRUFFLE", "IRISH CREAM TRUFFLE", "DARK CHOCOLATE CANDY CANE TRUFFLE", 
             "CHOCOLATE SOUFFLÉ TRUFFLE", "WHITE EURO TRUFFLE", "WHITE RUSSIAN TRUFFLE", 
@@ -265,6 +265,7 @@
 
         const f6HalfPlates = [
             "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE",
+            "STRAWBERRY TRUFFLE", "DARK RASPBERRY TRUFFLE",
             "IRISH CREAM TRUFFLE", "DARK CHOCOLATE CANDY CANE TRUFFLE",
             "WHITE EURO TRUFFLE", "WHITE RUSSIAN TRUFFLE",
             "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
@@ -272,7 +273,8 @@
             "DARK CHOCOLATE MAPLE PECAN CREAM", "ITALIAN ESPRESSO TRUFFLE",
             "DARK CHOCOLATE CARAMEL", "FRESH MINT TRUFFLE",
             "DARK CREAM MINT", "MILK SEA SALT CARAMEL", "MILK CHOCOLATE PECAN CARAMEL",
-            "MILK VANILLA DREAM", "FRENCH VANILLA \"B\""
+            "MILK VANILLA DREAM", "FRENCH VANILLA \"B\"",
+            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CHOCOLATE ENGLISH ALMOND TOFFEE"
         ];
 
         function init() {
@@ -326,7 +328,7 @@
 
         function calc(id) {
             const amInput = document.getElementById(`${id}_am`);
-            if (!amInput) return; // Guard for list changes
+            if (!amInput) return;
 
             const am = parseInt(amInput.value) || 0;
             const ref = parseInt(document.getElementById(`${id}_refill`).value) || 0;
