@@ -16,7 +16,7 @@
             --info: #2c3e50;
             --light: #f4eee8;
             --white: #ffffff;
-            --half-plate-bg: #fffbf0;
+            --highlight-row-bg: rgba(197, 160, 89, 0.15); /* Soft gold highlight */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,10 +49,14 @@
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 500px; }
         th { background: var(--bissingers-brown); color: var(--bissingers-gold); padding: 8px 4px; font-size: 0.6rem; text-transform: uppercase; }
-        td { padding: 8px 4px; border-bottom: 1px solid #f0f0f0; text-align: center; font-size: 0.85rem; }
+        td { padding: 8px 4px; border-bottom: 1px solid #f0f0f0; text-align: center; font-size: 0.85rem; transition: background 0.2s; }
         td:first-child { text-align: left; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
         
-        .half-plate-row { background-color: var(--half-plate-bg); }
+        /* New Row Highlight Style */
+        .highlight-row td {
+            background-color: var(--highlight-row-bg) !important;
+        }
+
         .half-plate-badge { 
             display: inline-block; 
             font-size: 10px; 
@@ -94,7 +98,7 @@
             body { padding: 0; background: white; padding-bottom: 0; }
             .card { box-shadow: none; border: 1px solid #ccc; }
             .floor-view { display: block !important; }
-            .half-plate-row { background-color: #f9f9f9 !important; -webkit-print-color-adjust: exact; }
+            .highlight-row td { background-color: transparent !important; }
         }
     </style>
 </head>
@@ -163,7 +167,7 @@
     <div id="f6-view" class="floor-view active">
         <div class="card" style="padding: 5px;">
             <div class="table-container">
-                <table>
+                <table id="f6Table">
                     <thead>
                         <tr>
                             <th style="width: 40%;">Flavor</th>
@@ -183,7 +187,7 @@
     <div id="f1-view" class="floor-view">
         <div class="card" style="padding: 5px;">
             <div class="table-container">
-                <table>
+                <table id="f1Table">
                     <thead>
                         <tr>
                             <th style="width: 40%;">Flavor</th>
@@ -251,7 +255,8 @@
             "MILK CHOCOLATE PECAN CARAMEL",
             "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE SWISS PECAN CREAM", 
             "MILK VANILLA DREAM", "FRENCH VANILLA \"B\"", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", 
-            "DARK CHOCOLATE ENGLISH ALMOND TOFFEE", "LEMON TEARDROP TRUFFLE"
+            "DARK CHOCOLATE ENGLISH ALMOND TOFFEE", "LEMON TEARDROP TRUFFLE",
+            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
         ];
         
         const f1List = [
@@ -286,7 +291,27 @@
             updateDateDisplay();
             renderRows(f6List, 'f6Body', 'f6');
             renderRows(f1List, 'f1Body', 'f1');
+            setupRowHighlighting();
             loadData();
+        }
+
+        // Feature: Highlight the whole line when an input is focused
+        function setupRowHighlighting() {
+            const tables = [document.getElementById('f6Table'), document.getElementById('f1Table')];
+            tables.forEach(table => {
+                table.addEventListener('focusin', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const row = e.target.closest('tr');
+                        if (row) row.classList.add('highlight-row');
+                    }
+                });
+                table.addEventListener('focusout', (e) => {
+                    if (e.target.tagName === 'INPUT') {
+                        const row = e.target.closest('tr');
+                        if (row) row.classList.remove('highlight-row');
+                    }
+                });
+            });
         }
 
         function toggleGuide() {
@@ -300,7 +325,6 @@
                 const id = `${prefix}_${i}`;
                 const tr = document.createElement('tr');
                 const isHalfPlate = prefix === 'f6' && f6HalfPlates.includes(name);
-                if (isHalfPlate) tr.classList.add('half-plate-row');
 
                 tr.innerHTML = `
                     <td>${name}${isHalfPlate ? '<span class="half-plate-badge">Half Plate</span>' : ''}</td>
