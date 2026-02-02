@@ -52,7 +52,6 @@
         td { padding: 8px 4px; border-bottom: 1px solid #f0f0f0; text-align: center; font-size: 0.85rem; transition: background 0.2s; }
         td:first-child { text-align: left; font-weight: bold; font-size: 0.75rem; text-transform: uppercase; }
         
-        /* New Row Highlight Style */
         .highlight-row td {
             background-color: var(--highlight-row-bg) !important;
         }
@@ -118,12 +117,8 @@
             <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done.</p>
         </div>
         <div class="guide-section">
-            <h3>🔄 Refills (Mid-day)</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter quantity added in <b>Refill</b>. This adds directly to your <b>End</b> count but does not change the <b>Sold</b> calculation.</p>
-        </div>
-        <div class="guide-section">
-            <h3>🌙 Evening Shift</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter closing counts in <b>PM</b>. Tracker calculates: <i>AM - PM = Sold</i>.</p>
+            <h3>🔄 Auto-Sync (Refill & PM)</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Entering a <b>Refill</b> will subtract from AM and update <b>PM</b>. Entering <b>PM</b> will calculate the difference as a <b>Refill</b>.</p>
         </div>
         <button onclick="toggleGuide()" style="width: 100%; padding: 8px; background: var(--bissingers-brown); color: var(--bissingers-gold); border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">CLOSE GUIDE</button>
     </div>
@@ -239,24 +234,18 @@
 
     <script>
         const f6List = [
-            "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", 
-            "STRAWBERRY TRUFFLE", "DARK RASPBERRY TRUFFLE", "ROOT BEER FLOAT TRUFFLE", "STRAWBERRY CHEESECAKE TRUFFLE", 
-            "CRÈME BRÛLÉE TRUFFLE", "TIRAMISU TRUFFLE", "DARK SEA SALT CARAMEL TRUFFLE", 
-            "RED VELVET CAKE TRUFFLE", "IRISH CREAM TRUFFLE", "DARK CHOCOLATE CANDY CANE TRUFFLE", 
-            "CHOCOLATE SOUFFLÉ TRUFFLE", "WHITE EURO TRUFFLE", "WHITE RUSSIAN TRUFFLE", 
-            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", 
-            "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "GERMAN CHOCOLATE TRUFFLE", 
-            "RASPBERRY CARAMEL JEWEL", "MILK SWISS CHOCOLATE TRUFFLE", "DARK SWISS CHOCOLATE TRUFFLE", 
-            "PINEAPPLE UPSIDE DOWN TRUFFLE", "MILK CHOCOLATE RASPBERRY CREAM", 
-            "DARK HIMALAYAN SEA SALT CARAMEL",
-            "MILK CHOCOLATE ORANGE CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", 
-            "PISTACHIO CROWN TRUFFLE", "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL", 
-            "FRESH MINT TRUFFLE", "DARK CREAM MINT", "MILK SEA SALT CARAMEL", 
-            "MILK CHOCOLATE PECAN CARAMEL",
-            "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE SWISS PECAN CREAM", 
-            "MILK VANILLA DREAM", "FRENCH VANILLA \"B\"", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", 
-            "DARK CHOCOLATE ENGLISH ALMOND TOFFEE", "LEMON TEARDROP TRUFFLE",
-            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
+            "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "RED VELVET CAKE TRUFFLE",
+            "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE", "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL",
+            "STRAWBERRY CHEESECAKE TRUFFLE", "IRISH CREME TRUFFLE", "WHITE RUSSIAN TRUFFLE", "CREME BRÛLÉE TRUFFLE",
+            "TIRAMISU TRUFFLE", "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "GERMAN CHOCOLATE TRUFFLE",
+            "DARK CHOCOLATE SOUFFLÉ TRUFFLE", "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE", "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "FRENCH VANILLA \"B\"", "MILK SWISS CHOCOLATE TRUFFLE",
+            "DARK SWISS CHOCOLATE TRUFFLE", "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL", "DARK CHOCOLATE CARAMEL",
+            "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL", "DARK SEA SALT CARAMEL TRUFFLE", "FRESH MINT TRUFFLE", "DARK CREME MINTS",
+            "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "PISTACHIO CROWN TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA DREAM",
+            "MILK VANILLA DREAMS", "LEMON TEARDROP TRUFFLE", "MILK CHOCOLATE SWISS PECAN CREAM", "DARK CHOCOLATE RASPBERRY CREME",
+            "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME", "ROOT BEER FLOAT TRUFFLE",
+            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL", "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
         ];
         
         const f1List = [
@@ -269,17 +258,14 @@
         ];
 
         const f6HalfPlates = [
-            "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE",
-            "STRAWBERRY TRUFFLE", "DARK RASPBERRY TRUFFLE",
-            "IRISH CREAM TRUFFLE", "DARK CHOCOLATE CANDY CANE TRUFFLE",
-            "WHITE EURO TRUFFLE", "WHITE RUSSIAN TRUFFLE",
-            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
-            "MILK CHOCOLATE RASPBERRY CREAM", "DARK HIMALAYAN SEA SALT CARAMEL", "MILK CHOCOLATE ORANGE CREAM",
-            "DARK CHOCOLATE MAPLE PECAN CREAM", "ITALIAN ESPRESSO TRUFFLE",
-            "DARK CHOCOLATE CARAMEL", "FRESH MINT TRUFFLE",
-            "DARK CREAM MINT", "MILK SEA SALT CARAMEL", "MILK CHOCOLATE PECAN CARAMEL",
-            "MILK VANILLA DREAM", "FRENCH VANILLA \"B\"",
-            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CHOCOLATE ENGLISH ALMOND TOFFEE"
+            "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE",
+            "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL", "IRISH CREME TRUFFLE", "WHITE RUSSIAN TRUFFLE",
+            "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL",
+            "DARK CHOCOLATE CARAMEL", "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL", "FRESH MINT TRUFFLE", "DARK CREME MINTS",
+            "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE FRENCH VANILLA DREAM", "MILK VANILLA DREAMS",
+            "DARK CHOCOLATE RASPBERRY CREME", "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME",
+            "ROOT BEER FLOAT TRUFFLE", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL"
         ];
 
         function init() {
@@ -295,7 +281,6 @@
             loadData();
         }
 
-        // Feature: Highlight the whole line when an input is focused
         function setupRowHighlighting() {
             const tables = [document.getElementById('f6Table'), document.getElementById('f1Table')];
             tables.forEach(table => {
@@ -328,9 +313,9 @@
 
                 tr.innerHTML = `
                     <td>${name}${isHalfPlate ? '<span class="half-plate-badge">Half Plate</span>' : ''}</td>
-                    <td><input type="number" id="${id}_am" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'am')" oninput="calc('${id}')"></td>
-                    <td><input type="number" id="${id}_refill" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'refill')" oninput="calc('${id}')"></td>
-                    <td><input type="number" id="${id}_pm" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'pm')" oninput="calc('${id}')"></td>
+                    <td><input type="number" id="${id}_am" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'am')" oninput="calc('${id}', 'am')"></td>
+                    <td><input type="number" id="${id}_refill" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'refill')" oninput="calc('${id}', 'refill')"></td>
+                    <td><input type="number" id="${id}_pm" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'pm')" oninput="calc('${id}', 'pm')"></td>
                     <td id="${id}_sold" class="sold-text">0</td>
                     <td id="${id}_end" class="end-text">0</td>
                 `;
@@ -350,27 +335,39 @@
             }
         }
 
-        function calc(id) {
-            const amInput = document.getElementById(`${id}_am`);
-            if (!amInput) return;
-
-            const am = parseInt(amInput.value) || 0;
-            const ref = parseInt(document.getElementById(`${id}_refill`).value) || 0;
-            const pmInput = document.getElementById(`${id}_pm`);
-            const pmVal = pmInput.value;
-            const pm = parseInt(pmVal) || 0;
-
-            const endEl = document.getElementById(`${id}_end`);
+        /**
+         * Dynamic calculation logic:
+         * 1. If 'refill' changed: PM = AM - Refill
+         * 2. If 'pm' changed: Refill = AM - PM
+         */
+        function calc(id, trigger) {
+            const amIn = document.getElementById(`${id}_am`);
+            const refIn = document.getElementById(`${id}_refill`);
+            const pmIn = document.getElementById(`${id}_pm`);
             const soldEl = document.getElementById(`${id}_sold`);
+            const endEl = document.getElementById(`${id}_end`);
 
-            if (pmVal !== "") {
-                const sold = Math.max(0, am - pm);
-                soldEl.textContent = sold;
-                endEl.textContent = pm + ref;
-            } else {
-                soldEl.textContent = "0";
-                endEl.textContent = am + ref;
+            const am = parseInt(amIn.value) || 0;
+            let ref = parseInt(refIn.value) || 0;
+            let pm = parseInt(pmIn.value) || 0;
+
+            // Logic: Auto-populate based on user input
+            if (trigger === 'refill') {
+                pm = Math.max(0, am - ref);
+                pmIn.value = pm;
+            } else if (trigger === 'pm') {
+                ref = Math.max(0, am - pm);
+                refIn.value = ref;
             }
+
+            // Calculation for Sold (Always based on original AM and actual closing PM)
+            // If AM is 100, Refill is 10 (taken out), PM is 90. Sold is (100+0)-90 = 10.
+            // In your workflow, "Refill" usually means adding to stock. 
+            // However, based on your prompt "subtracts from am total", it sounds like a draw.
+            // Sold = (AM + Refill_as_addition) - PM
+            
+            soldEl.textContent = Math.max(0, am - pm);
+            endEl.textContent = pm; // Or pm + ref if refill is addition, but prompt says it subtracts.
 
             const currentEnd = parseInt(endEl.textContent);
             if (currentEnd > 0 && currentEnd < 5) endEl.classList.add('low-stock');
@@ -472,7 +469,7 @@
                     if(pmIn) pmIn.value = arr[i].pm;
                 }
                 if (d.amLocked && amIn) amIn.disabled = true;
-                calc(id);
+                calc(id, 'init');
             });
             fill(f6List, 'f6', d.f6); fill(f1List, 'f1', d.f1);
             if (d.amLocked) {
