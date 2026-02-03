@@ -16,7 +16,7 @@
             --info: #2c3e50;
             --light: #f4eee8;
             --white: #ffffff;
-            --highlight-row-bg: rgba(197, 160, 89, 0.15); /* Soft gold highlight */
+            --highlight-row-bg: rgba(197, 160, 89, 0.15);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -114,11 +114,11 @@
     <div id="guide" class="card" style="display: none;">
         <div class="guide-section">
             <h3>☀️ Morning Shift</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done.</p>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done to prevent accidental changes.</p>
         </div>
         <div class="guide-section">
-            <h3>🔄 Auto-Sync (Refill & PM)</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Entering a <b>Refill</b> will subtract from AM and update <b>PM</b>. Entering <b>PM</b> will calculate the difference as a <b>Refill</b>.</p>
+            <h3>🔄 Auto-Calculations</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Entering <b>PM</b> counts will automatically show you how many were <b>Sold</b> today.</p>
         </div>
         <button onclick="toggleGuide()" style="width: 100%; padding: 8px; background: var(--bissingers-brown); color: var(--bissingers-gold); border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">CLOSE GUIDE</button>
     </div>
@@ -335,11 +335,6 @@
             }
         }
 
-        /**
-         * Dynamic calculation logic:
-         * 1. If 'refill' changed: PM = AM - Refill
-         * 2. If 'pm' changed: Refill = AM - PM
-         */
         function calc(id, trigger) {
             const amIn = document.getElementById(`${id}_am`);
             const refIn = document.getElementById(`${id}_refill`);
@@ -351,23 +346,14 @@
             let ref = parseInt(refIn.value) || 0;
             let pm = parseInt(pmIn.value) || 0;
 
-            // Logic: Auto-populate based on user input
             if (trigger === 'refill') {
-                pm = Math.max(0, am - ref);
-                pmIn.value = pm;
-            } else if (trigger === 'pm') {
-                ref = Math.max(0, am - pm);
-                refIn.value = ref;
+                // Usually Refill is an addition, but if used as a 'draw':
+                // For this tracker, we treat AM + Refill as total available.
+                // Sold = (AM + Refill) - PM
             }
 
-            // Calculation for Sold (Always based on original AM and actual closing PM)
-            // If AM is 100, Refill is 10 (taken out), PM is 90. Sold is (100+0)-90 = 10.
-            // In your workflow, "Refill" usually means adding to stock. 
-            // However, based on your prompt "subtracts from am total", it sounds like a draw.
-            // Sold = (AM + Refill_as_addition) - PM
-            
-            soldEl.textContent = Math.max(0, am - pm);
-            endEl.textContent = pm; // Or pm + ref if refill is addition, but prompt says it subtracts.
+            soldEl.textContent = Math.max(0, (am + ref) - pm);
+            endEl.textContent = pm;
 
             const currentEnd = parseInt(endEl.textContent);
             if (currentEnd > 0 && currentEnd < 5) endEl.classList.add('low-stock');
@@ -489,24 +475,40 @@
             let report = `BISSINGER'S ${type.toUpperCase()} REPORT\nDate: ${date}\nMOD: ${mod}\n\n`;
 
             const section = (title, list, prefix) => {
-                report += `--- ${title} FLOOR ---\n`;
+                let sectionContent = `--- ${title} FLOOR ---\n`;
+                let hasData = false;
                 list.forEach((name, i) => {
                     const id = `${prefix}_${i}`;
                     const am = document.getElementById(`${id}_am`)?.value || 0;
                     const pm = document.getElementById(`${id}_pm`)?.value || 0;
                     const sold = document.getElementById(`${id}_sold`)?.textContent || 0;
-                    if (type === 'am' && am > 0) report += `${name}: AM ${am}\n`;
-                    if (type === 'pm' && (pm > 0 || sold > 0)) report += `${name}: Sold ${sold} | End ${pm}\n`;
+                    if (type === 'am' && am > 0) {
+                        sectionContent += `${name}: AM ${am}\n`;
+                        hasData = true;
+                    }
+                    if (type === 'pm' && (pm > 0 || sold > 0)) {
+                        sectionContent += `${name}: Sold ${sold} | End ${pm}\n`;
+                        hasData = true;
+                    }
                 });
-                report += `\n`;
+                if (hasData) report += sectionContent + `\n`;
             };
 
             section("6TH", f6List, "f6"); section("1ST", f1List, "f1");
             
-            navigator.clipboard.writeText(report).then(() => {
-                closeReport();
+            // Fallback for copy
+            const textArea = document.createElement("textarea");
+            textArea.value = report;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
                 showToast("Report copied!");
-            });
+            } catch (err) {
+                console.error('Unable to copy', err);
+            }
+            document.body.removeChild(textArea);
+            closeReport();
         }
     </script>
 </body>
