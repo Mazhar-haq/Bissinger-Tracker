@@ -117,8 +117,13 @@
             <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done to prevent accidental changes.</p>
         </div>
         <div class="guide-section">
-            <h3>🔄 Auto-Calculations</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Entering <b>PM</b> counts will automatically show you how many were <b>Sold</b> today.</p>
+            <h3>🔄 Two Ways to Track Sales</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Option 1 - Enter Refill:</b> Enter sold amount in <b>Refill</b> → PM auto-calculates (AM - Refill = PM)</p>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Option 2 - Enter PM:</b> Enter ending count in <b>PM</b> → Refill auto-calculates (AM - PM = Refill)</p>
+        </div>
+        <div class="guide-section">
+            <h3>📊 Auto-Calculations</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Sold</b> shows AM - PM. <b>End</b> shows final PM count. Use whichever method works best for your workflow!</p>
         </div>
         <button onclick="toggleGuide()" style="width: 100%; padding: 8px; background: var(--bissingers-brown); color: var(--bissingers-gold); border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">CLOSE GUIDE</button>
     </div>
@@ -249,12 +254,21 @@
         ];
         
         const f1List = [
-            "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "WHITE EURO TRUFFLE", 
-            "DARK CHOCOLATE SEA SALT CARAMEL TRUFFLE", "MILK CHOCOLATE TIRAMISU TRUFFLE",
-            "FRESH MINT TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA \"B\"", 
-            "DARK CHOCOLATE RASPBERRY CARAMEL JEWEL", "PISTACHIO CROWN TRUFFLE", 
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "MILK CHOCOLATE FRENCH SEA SALT CARAMEL", 
-            "MILK CHOCOLATE SWISS PECAN CREAM"
+            "PISTACHIO CROWN TRUFFLE",
+            "MILK CHOCOLATE SWISS PECAN CREAM",
+            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "DARK CHOCOLATE FRENCH VANILLA \"B\"",
+            "MILK CHOCOLATE RED VELVET TRUFFLE",
+            "RASPBERRY CARAMEL JEWEL TRUFFLE",
+            "WEDDING CAKE TRUFFLE",
+            "DARK CHOCOLATE RASPBERRY TRUFFLE",
+            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
+            "WHITE EURO TRUFFLE",
+            "MILK CHOCOLATE TIRAMISU TRUFFLE",
+            "BIRTHDAY CAKE TRUFFLE",
+            "FRESH MINT TRUFFLE",
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE"
         ];
 
         const f6HalfPlates = [
@@ -266,6 +280,15 @@
             "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE FRENCH VANILLA DREAM", "MILK VANILLA DREAMS",
             "DARK CHOCOLATE RASPBERRY CREME", "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME",
             "ROOT BEER FLOAT TRUFFLE", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL"
+        ];
+
+        const f1HalfPlates = [
+            "PISTACHIO CROWN TRUFFLE",
+            "MILK CHOCOLATE SWISS PECAN CREAM",
+            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "WHITE EURO TRUFFLE",
+            "MILK CHOCOLATE TIRAMISU TRUFFLE"
         ];
 
         function init() {
@@ -306,10 +329,12 @@
 
         function renderRows(list, containerId, prefix) {
             const container = document.getElementById(containerId);
+            const halfPlatesList = prefix === 'f6' ? f6HalfPlates : f1HalfPlates;
+            
             list.forEach((name, i) => {
                 const id = `${prefix}_${i}`;
                 const tr = document.createElement('tr');
-                const isHalfPlate = prefix === 'f6' && f6HalfPlates.includes(name);
+                const isHalfPlate = halfPlatesList.includes(name);
 
                 tr.innerHTML = `
                     <td>${name}${isHalfPlate ? '<span class="half-plate-badge">Half Plate</span>' : ''}</td>
@@ -346,13 +371,20 @@
             let ref = parseInt(refIn.value) || 0;
             let pm = parseInt(pmIn.value) || 0;
 
-            if (trigger === 'refill') {
-                // Usually Refill is an addition, but if used as a 'draw':
-                // For this tracker, we treat AM + Refill as total available.
-                // Sold = (AM + Refill) - PM
+            // If refill is entered, auto-populate PM by subtracting refill from AM
+            if (trigger === 'refill' && ref > 0) {
+                pm = Math.max(0, am - ref);
+                pmIn.value = pm;
             }
 
-            soldEl.textContent = Math.max(0, (am + ref) - pm);
+            // If PM is entered, auto-populate Refill by subtracting PM from AM
+            if (trigger === 'pm' && pm >= 0 && am > 0) {
+                ref = Math.max(0, am - pm);
+                refIn.value = ref;
+            }
+
+            // Sold = AM - PM (refill represents what was taken out)
+            soldEl.textContent = Math.max(0, am - pm);
             endEl.textContent = pm;
 
             const currentEnd = parseInt(endEl.textContent);
