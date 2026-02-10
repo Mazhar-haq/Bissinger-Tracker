@@ -16,7 +16,7 @@
             --info: #2c3e50;
             --light: #f4eee8;
             --white: #ffffff;
-            --highlight-row-bg: rgba(197, 160, 89, 0.15);
+            --highlight-row-bg: rgba(197, 160, 89, 0.15); /* Soft gold highlight */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -114,16 +114,15 @@
     <div id="guide" class="card" style="display: none;">
         <div class="guide-section">
             <h3>☀️ Morning Shift</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done to prevent accidental changes.</p>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done.</p>
         </div>
         <div class="guide-section">
-            <h3>🔄 Two Ways to Track Sales</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Option 1 - Enter Refill:</b> Enter sold amount in <b>Refill</b> → PM auto-calculates (AM - Refill = PM)</p>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Option 2 - Enter PM:</b> Enter ending count in <b>PM</b> → Refill auto-calculates (AM - PM = Refill)</p>
+            <h3>🔄 Auto-Sync (Refill & PM)</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Entering a <b>Refill</b> will subtract from AM and update <b>PM</b>. Entering <b>PM</b> will calculate the difference as a <b>Refill</b>.</p>
         </div>
         <div class="guide-section">
-            <h3>📊 Auto-Calculations</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Sold</b> shows AM - PM. <b>End</b> shows final PM count. Use whichever method works best for your workflow!</p>
+            <h3>🌙 Evening Shift</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter closing counts in <b>PM</b>. Tracker calculates: <i>AM - PM = Sold</i>.</p>
         </div>
         <button onclick="toggleGuide()" style="width: 100%; padding: 8px; background: var(--bissingers-brown); color: var(--bissingers-gold); border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">CLOSE GUIDE</button>
     </div>
@@ -239,56 +238,95 @@
 
     <script>
         const f6List = [
-            "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "RED VELVET CAKE TRUFFLE",
-            "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE", "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL",
-            "STRAWBERRY CHEESECAKE TRUFFLE", "IRISH CREME TRUFFLE", "WHITE RUSSIAN TRUFFLE", "CREME BRÛLÉE TRUFFLE",
-            "TIRAMISU TRUFFLE", "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "GERMAN CHOCOLATE TRUFFLE",
-            "DARK CHOCOLATE SOUFFLÉ TRUFFLE", "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE", "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
-            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "FRENCH VANILLA \"B\"", "MILK SWISS CHOCOLATE TRUFFLE",
-            "DARK SWISS CHOCOLATE TRUFFLE", "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL", "DARK CHOCOLATE CARAMEL",
-            "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL", "DARK SEA SALT CARAMEL TRUFFLE", "FRESH MINT TRUFFLE", "DARK CREME MINTS",
-            "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "PISTACHIO CROWN TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA DREAM",
-            "MILK VANILLA DREAMS", "LEMON TEARDROP TRUFFLE", "MILK CHOCOLATE SWISS PECAN CREAM", "DARK CHOCOLATE RASPBERRY CREME",
-            "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME", "ROOT BEER FLOAT TRUFFLE",
-            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL", "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
+            "BIRTHDAY CAKE TRUFFLE",
+            "WEDDING CAKE TRUFFLE",
+            "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE",
+            "RED VELVET CAKE TRUFFLE",
+            "MILK CHOCOLATE CHERRY CORDIALS",
+            "DARK CHOCOLATE CHERRY CORDIALS",
+            "STRAWBERRY TRUFFLE",
+            "DARK CHOCOLATE RASPBERRY TRUFFLE",
+            "DARK CHOCOLATE CHAMPAGNE TRUFFLE",
+            "RASPBERRY CARAMEL JEWEL",
+            "STRAWBERRY CHEESECAKE TRUFFLE",
+            "IRISH CREME TRUFFLE",
+            "WHITE RUSSIAN TRUFFLE",
+            "CREME BRÛLÉE TRUFFLE",
+            "TIRAMISU TRUFFLE",
+            "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE",
+            "ITALIAN ESPRESSO TRUFFLE",
+            "GERMAN CHOCOLATE TRUFFLE",
+            "DARK CHOCOLATE SOUFFLÉ TRUFFLE",
+            "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE",
+            "WHITE EURO TRUFFLE",
+            "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
+            "FRENCH VANILLA \"B\"",
+            "CHOCOLATE MILKSHAKE TRUFFLE",
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
+            "MILK SWISS CHOCOLATE TRUFFLE",
+            "DARK SWISS CHOCOLATE TRUFFLE",
+            "MILK SEA SALT CARAMEL",
+            "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL",
+            "DARK CHOCOLATE CARAMEL",
+            "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL",
+            "DARK SEA SALT CARAMEL TRUFFLE",
+            "FRESH MINT TRUFFLE",
+            "DARK CREME MINTS",
+            "MILK CHOCOLATE MAPLE PECAN CREAM",
+            "DARK CHOCOLATE MAPLE PECAN CREAM",
+            "PISTACHIO CROWN TRUFFLE",
+            "DARK CHOCOLATE FRENCH VANILLA DREAM",
+            "MILK VANILLA DREAMS",
+            "LEMON TEARDROP TRUFFLE",
+            "MILK CHOCOLATE SWISS PECAN CREAM",
+            "DARK CHOCOLATE RASPBERRY CREME",
+            "MILK CHOCOLATE RASPBERRY CREME",
+            "MILK ORANGE CREME",
+            "DARK CHOCOLATE ORANGE CREME",
+            "ROOT BEER FLOAT TRUFFLE",
+            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE",
+            "DARK CINNAMON ALMOND CARAMEL",
+            "MILK CHOCOLATE PECAN CARAMEL",
+            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
         ];
         
         const f1List = [
-            "PISTACHIO CROWN TRUFFLE",
-            "MILK CHOCOLATE SWISS PECAN CREAM",
-            "DARK CHOCOLATE SEA SALT CARAMEL",
-            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
-            "DARK CHOCOLATE FRENCH VANILLA \"B\"",
-            "MILK CHOCOLATE RED VELVET TRUFFLE",
-            "RASPBERRY CARAMEL JEWEL TRUFFLE",
-            "WEDDING CAKE TRUFFLE",
-            "DARK CHOCOLATE RASPBERRY TRUFFLE",
-            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
-            "WHITE EURO TRUFFLE",
-            "MILK CHOCOLATE TIRAMISU TRUFFLE",
-            "BIRTHDAY CAKE TRUFFLE",
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
             "FRESH MINT TRUFFLE",
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE"
+            "BIRTHDAY CAKE TRUFFLE",
+            "MILK CHOCOLATE TIRAMISU TRUFFLE",
+            "WHITE EURO TRUFFLE",
+            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
+            "DARK CHOCOLATE RASPBERRY TRUFFLE",
+            "WEDDING CAKE TRUFFLE",
+            "RASPBERRY CARAMEL JEWEL TRUFFLE",
+            "MILK CHOCOLATE RED VELVET TRUFFLE",
+            "DARK CHOCOLATE FRENCH VANILLA \"B\"",
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "MILK CHOCOLATE SWISS PECAN CREAM",
+            "PISTACHIO CROWN TRUFFLES"
         ];
 
         const f6HalfPlates = [
-            "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE",
-            "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL", "IRISH CREME TRUFFLE", "WHITE RUSSIAN TRUFFLE",
-            "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
-            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL",
-            "DARK CHOCOLATE CARAMEL", "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL", "FRESH MINT TRUFFLE", "DARK CREME MINTS",
-            "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE FRENCH VANILLA DREAM", "MILK VANILLA DREAMS",
-            "DARK CHOCOLATE RASPBERRY CREME", "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME",
-            "ROOT BEER FLOAT TRUFFLE", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL"
+            "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "MILK CHOCOLATE CHERRY CORDIALS", "DARK CHOCOLATE CHERRY CORDIALS",
+            "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE", "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL",
+            "IRISH CREME TRUFFLE", "WHITE RUSSIAN TRUFFLE", "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "ITALIAN ESPRESSO TRUFFLE",
+            "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE", "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
+            "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL", "DARK CHOCOLATE CARAMEL", "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL",
+            "FRESH MINT TRUFFLE", "DARK CREME MINTS", "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM",
+            "DARK CHOCOLATE FRENCH VANILLA DREAM", "MILK VANILLA DREAMS", "DARK CHOCOLATE RASPBERRY CREME", "MILK CHOCOLATE RASPBERRY CREME",
+            "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME", "ROOT BEER FLOAT TRUFFLE", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE",
+            "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL"
         ];
 
         const f1HalfPlates = [
-            "PISTACHIO CROWN TRUFFLE",
-            "MILK CHOCOLATE SWISS PECAN CREAM",
-            "DARK CHOCOLATE SEA SALT CARAMEL",
-            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "MILK CHOCOLATE TIRAMISU TRUFFLE",
             "WHITE EURO TRUFFLE",
-            "MILK CHOCOLATE TIRAMISU TRUFFLE"
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "MILK CHOCOLATE SWISS PECAN CREAM",
+            "PISTACHIO CROWN TRUFFLES"
         ];
 
         function init() {
@@ -329,12 +367,15 @@
 
         function renderRows(list, containerId, prefix) {
             const container = document.getElementById(containerId);
-            const halfPlatesList = prefix === 'f6' ? f6HalfPlates : f1HalfPlates;
-            
             list.forEach((name, i) => {
                 const id = `${prefix}_${i}`;
                 const tr = document.createElement('tr');
-                const isHalfPlate = halfPlatesList.includes(name);
+                
+                let isHalfPlate = false;
+                if (prefix === 'f6' && f6HalfPlates.includes(name)) isHalfPlate = true;
+                if (prefix === 'f1' && f1HalfPlates.includes(name)) isHalfPlate = true;
+                
+                if (isHalfPlate) tr.classList.add('half-plate-row');
 
                 tr.innerHTML = `
                     <td>${name}${isHalfPlate ? '<span class="half-plate-badge">Half Plate</span>' : ''}</td>
@@ -371,24 +412,19 @@
             let ref = parseInt(refIn.value) || 0;
             let pm = parseInt(pmIn.value) || 0;
 
-            // If refill is entered, auto-populate PM by subtracting refill from AM
             if (trigger === 'refill' && ref > 0) {
                 pm = Math.max(0, am - ref);
                 pmIn.value = pm;
-            }
-
-            // If PM is entered, auto-populate Refill by subtracting PM from AM
-            if (trigger === 'pm' && pm >= 0 && am > 0) {
+            } else if (trigger === 'pm' && am > 0) {
                 ref = Math.max(0, am - pm);
                 refIn.value = ref;
             }
 
-            // Sold = AM - PM (refill represents what was taken out)
-            soldEl.textContent = Math.max(0, am - pm);
+            const soldValue = Math.max(0, am - pm);
+            soldEl.textContent = soldValue;
             endEl.textContent = pm;
 
-            const currentEnd = parseInt(endEl.textContent);
-            if (currentEnd > 0 && currentEnd < 5) endEl.classList.add('low-stock');
+            if (pm > 0 && pm < 5) endEl.classList.add('low-stock');
             else endEl.classList.remove('low-stock');
 
             updateTotals();
@@ -452,7 +488,7 @@
         }
 
         function saveData() {
-            const map = (list, prefix) => list.map((_, i) => ({
+            const mapData = (list, prefix) => list.map((_, i) => ({
                 am: document.getElementById(`${prefix}_${i}_am`)?.value || "",
                 ref: document.getElementById(`${prefix}_${i}_refill`)?.value || "",
                 pm: document.getElementById(`${prefix}_${i}_pm`)?.value || ""
@@ -462,7 +498,8 @@
                 oMod: document.getElementById('openingMod').value,
                 cMod: document.getElementById('closingMod').value,
                 amLocked: document.getElementById('lockAmBtn').disabled,
-                f6: map(f6List, 'f6'), f1: map(f1List, 'f1')
+                f6: mapData(f6List, 'f6'),
+                f1: mapData(f1List, 'f1')
             };
             localStorage.setItem('biss_truffle_full_v2', JSON.stringify(data));
         }
@@ -477,16 +514,12 @@
             
             const fill = (list, prefix, arr) => list.forEach((_, i) => {
                 const id = `${prefix}_${i}`;
-                const amIn = document.getElementById(`${id}_am`);
-                const refIn = document.getElementById(`${id}_refill`);
-                const pmIn = document.getElementById(`${id}_pm`);
-                
                 if (arr && arr[i]) {
-                    if(amIn) amIn.value = arr[i].am;
-                    if(refIn) refIn.value = arr[i].ref;
-                    if(pmIn) pmIn.value = arr[i].pm;
+                    document.getElementById(`${id}_am`).value = arr[i].am;
+                    document.getElementById(`${id}_refill`).value = arr[i].ref;
+                    document.getElementById(`${id}_pm`).value = arr[i].pm;
                 }
-                if (d.amLocked && amIn) amIn.disabled = true;
+                if (d.amLocked) document.getElementById(`${id}_am`).disabled = true;
                 calc(id, 'init');
             });
             fill(f6List, 'f6', d.f6); fill(f1List, 'f1', d.f1);
@@ -507,7 +540,7 @@
             let report = `BISSINGER'S ${type.toUpperCase()} REPORT\nDate: ${date}\nMOD: ${mod}\n\n`;
 
             const section = (title, list, prefix) => {
-                let sectionContent = `--- ${title} FLOOR ---\n`;
+                let reportContent = `--- ${title} FLOOR ---\n`;
                 let hasData = false;
                 list.forEach((name, i) => {
                     const id = `${prefix}_${i}`;
@@ -515,20 +548,19 @@
                     const pm = document.getElementById(`${id}_pm`)?.value || 0;
                     const sold = document.getElementById(`${id}_sold`)?.textContent || 0;
                     if (type === 'am' && am > 0) {
-                        sectionContent += `${name}: AM ${am}\n`;
+                        reportContent += `${name}: AM ${am}\n`;
                         hasData = true;
                     }
                     if (type === 'pm' && (pm > 0 || sold > 0)) {
-                        sectionContent += `${name}: Sold ${sold} | End ${pm}\n`;
+                        reportContent += `${name}: Sold ${sold} | End ${pm}\n`;
                         hasData = true;
                     }
                 });
-                if (hasData) report += sectionContent + `\n`;
+                if (hasData) report += reportContent + `\n`;
             };
 
             section("6TH", f6List, "f6"); section("1ST", f1List, "f1");
             
-            // Fallback for copy
             const textArea = document.createElement("textarea");
             textArea.value = report;
             document.body.appendChild(textArea);
