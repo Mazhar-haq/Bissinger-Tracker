@@ -114,16 +114,15 @@
     <div id="guide" class="card" style="display: none;">
         <div class="guide-section">
             <h3>☀️ Morning Shift</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done.</p>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter counts in <b>AM</b> column. Click <b>Lock AM</b> when done to prevent accidental changes.</p>
         </div>
         <div class="guide-section">
-            <h3>🧮 Sold Calculation</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Sold = AM - PM + Refill</b> (if Refill > 0)</p>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">End = PM (closing count)</p>
+            <h3>🔄 Refill Column</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;">Use <b>Refill</b> to add truffles brought from the back during the day. This increases the sold count.</p>
         </div>
         <div class="guide-section">
-            <h3>🌙 Evening Shift</h3>
-            <p style="font-size: 0.75rem; margin-bottom: 5px;">Enter closing counts in <b>PM</b>. Sold is calculated automatically.</p>
+            <h3>📊 Auto-Calculations</h3>
+            <p style="font-size: 0.75rem; margin-bottom: 5px;"><b>Sold</b> = (AM − PM) + Refill<br><b>End</b> = PM count at close</p>
         </div>
         <button onclick="toggleGuide()" style="width: 100%; padding: 8px; background: var(--bissingers-brown); color: var(--bissingers-gold); border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">CLOSE GUIDE</button>
     </div>
@@ -155,9 +154,7 @@
             <button style="flex: 1; padding: 10px; background: var(--success); color: white; border: none; font-weight: bold; border-radius: 4px; cursor: pointer;" onclick="window.print()">🖨️ PDF</button>
         </div>
         <div style="margin-top: 10px;">
-            <button style="width: 100%; padding: 8px; background: transparent; color: var(--danger); border: 1px solid var(--danger); font-size: 0.7rem; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;" onclick="confirmReset()">
-                Clear All Today's Data
-            </button>
+            <button style="width: 100%; padding: 8px; background: transparent; color: var(--danger); border: 1px solid var(--danger); font-size: 0.7rem; font-weight: bold; border-radius: 4px; cursor: pointer; text-transform: uppercase;" onclick="confirmReset()">Clear All Today's Data</button>
         </div>
     </div>
 
@@ -223,9 +220,9 @@
         </div>
         
         <div class="top-sellers-panel">
-            <div class="top-sellers-title">🏆 Top 5 Sold Today</div>
+            <div class="top-sellers-title">🏆 Top Sellers Today</div>
             <div id="topSellersList" class="top-sellers-grid">
-                <div class="seller-badge" style="opacity: 0.5;">Enter counts to track sales...</div>
+                <div class="seller-badge" style="opacity: 0.5;">Enter PM counts to track...</div>
             </div>
         </div>
     </div>
@@ -240,61 +237,22 @@
     </div>
 
     <script>
-        // 6TH FLOOR TRUFFLE FLAVORS - ALL 50 OF THEM
         const f6List = [
-            "BIRTHDAY CAKE TRUFFLE",
-            "WEDDING CAKE TRUFFLE",
-            "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE",
-            "RED VELVET CAKE TRUFFLE",
-            "MILK CHOCOLATE CHERRY CORDIALS",
-            "DARK CHOCOLATE CHERRY CORDIALS",
-            "STRAWBERRY TRUFFLE",
-            "DARK CHOCOLATE RASPBERRY TRUFFLE",
-            "DARK CHOCOLATE CHAMPAGNE TRUFFLE",
-            "RASPBERRY CARAMEL JEWEL",
-            "STRAWBERRY CHEESECAKE TRUFFLE",
-            "IRISH CREME TRUFFLE",
-            "WHITE RUSSIAN TRUFFLE",
-            "CREME BRÛLÉE TRUFFLE",
-            "TIRAMISU TRUFFLE",
-            "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE",
-            "ITALIAN ESPRESSO TRUFFLE",
-            "GERMAN CHOCOLATE TRUFFLE",
-            "DARK CHOCOLATE SOUFFLÉ TRUFFLE",
-            "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE",
-            "WHITE EURO TRUFFLE",
-            "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
-            "FRENCH VANILLA \"B\"",
-            "CHOCOLATE MILKSHAKE TRUFFLE",
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
-            "MILK SWISS CHOCOLATE TRUFFLE",
-            "DARK SWISS CHOCOLATE TRUFFLE",
-            "MILK SEA SALT CARAMEL",
-            "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL",
-            "DARK CHOCOLATE CARAMEL",
-            "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL",
-            "DARK SEA SALT CARAMEL TRUFFLE",
-            "FRESH MINT TRUFFLE",
-            "DARK CREME MINTS",
-            "MILK CHOCOLATE MAPLE PECAN CREAM",
-            "DARK CHOCOLATE MAPLE PECAN CREAM",
-            "PISTACHIO CROWN TRUFFLE",
-            "DARK CHOCOLATE FRENCH VANILLA DREAM",
-            "MILK VANILLA DREAMS",
-            "LEMON TEARDROP TRUFFLE",
-            "MILK CHOCOLATE SWISS PECAN CREAM",
-            "DARK CHOCOLATE RASPBERRY CREME",
-            "MILK CHOCOLATE RASPBERRY CREME",
-            "MILK ORANGE CREME",
-            "DARK CHOCOLATE ORANGE CREME",
-            "ROOT BEER FLOAT TRUFFLE",
-            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE",
-            "DARK CINNAMON ALMOND CARAMEL",
-            "MILK CHOCOLATE PECAN CARAMEL",
-            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
+            "BIRTHDAY CAKE TRUFFLE", "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "RED VELVET CAKE TRUFFLE",
+            "MILK CHOCOLATE CHERRY CORDIALS", "DARK CHOCOLATE CHERRY CORDIALS", "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE", 
+            "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL", "STRAWBERRY CHEESECAKE TRUFFLE", "IRISH CREME TRUFFLE", 
+            "WHITE RUSSIAN TRUFFLE", "CREME BRÛLÉE TRUFFLE", "TIRAMISU TRUFFLE", "ITALIAN ESPRESSO TRUFFLE", 
+            "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "GERMAN CHOCOLATE TRUFFLE", "DARK CHOCOLATE SOUFFLÉ TRUFFLE", 
+            "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE", "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE", "FRENCH VANILLA \"B\"",
+            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "MILK SWISS CHOCOLATE TRUFFLE",
+            "DARK SWISS CHOCOLATE TRUFFLE", "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL", "DARK CHOCOLATE CARAMEL",
+            "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL", "DARK SEA SALT CARAMEL TRUFFLE", "FRESH MINT TRUFFLE", "DARK CREME MINTS",
+            "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "PISTACHIO CROWN TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA DREAM",
+            "MILK VANILLA DREAMS", "LEMON TEARDROP TRUFFLE", "MILK CHOCOLATE SWISS PECAN CREAM", "DARK CHOCOLATE RASPBERRY CREME",
+            "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME", "ROOT BEER FLOAT TRUFFLE",
+            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL", "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
         ];
         
-        // 1ST FLOOR TRUFFLE FLAVORS - ALL 15 OF THEM
         const f1List = [
             "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
             "FRESH MINT TRUFFLE",
@@ -310,55 +268,28 @@
             "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
             "DARK CHOCOLATE SEA SALT CARAMEL",
             "MILK CHOCOLATE SWISS PECAN CREAM",
-            "PISTACHIO CROWN TRUFFLES"
+            "PISTACHIO CROWN TRUFFLE"
         ];
 
-        // 6TH FLOOR HALF PLATE FLAVORS
         const f6HalfPlates = [
-            "WEDDING CAKE TRUFFLE", 
-            "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", 
-            "MILK CHOCOLATE CHERRY CORDIALS", 
-            "DARK CHOCOLATE CHERRY CORDIALS",
-            "STRAWBERRY TRUFFLE", 
-            "DARK CHOCOLATE RASPBERRY TRUFFLE", 
-            "DARK CHOCOLATE CHAMPAGNE TRUFFLE", 
-            "RASPBERRY CARAMEL JEWEL",
-            "IRISH CREME TRUFFLE", 
-            "WHITE RUSSIAN TRUFFLE", 
-            "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", 
-            "ITALIAN ESPRESSO TRUFFLE",
-            "WHITE EURO TRUFFLE", 
-            "DARK CHOCOLATE FRENCH VANILLA TRUFFLE", 
-            "CHOCOLATE MILKSHAKE TRUFFLE", 
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
-            "MILK SEA SALT CARAMEL", 
-            "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL", 
-            "DARK CHOCOLATE CARAMEL", 
-            "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL",
-            "FRESH MINT TRUFFLE", 
-            "DARK CREME MINTS", 
-            "MILK CHOCOLATE MAPLE PECAN CREAM", 
-            "DARK CHOCOLATE MAPLE PECAN CREAM",
-            "DARK CHOCOLATE FRENCH VANILLA DREAM", 
-            "MILK VANILLA DREAMS", 
-            "DARK CHOCOLATE RASPBERRY CREME", 
-            "MILK CHOCOLATE RASPBERRY CREME",
-            "MILK ORANGE CREME", 
-            "DARK CHOCOLATE ORANGE CREME", 
-            "ROOT BEER FLOAT TRUFFLE", 
-            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE",
-            "DARK CINNAMON ALMOND CARAMEL", 
-            "MILK CHOCOLATE PECAN CARAMEL"
+            "WEDDING CAKE TRUFFLE", "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE", "MILK CHOCOLATE CHERRY CORDIALS", 
+            "DARK CHOCOLATE CHERRY CORDIALS", "STRAWBERRY TRUFFLE", "DARK CHOCOLATE RASPBERRY TRUFFLE",
+            "DARK CHOCOLATE CHAMPAGNE TRUFFLE", "RASPBERRY CARAMEL JEWEL", "IRISH CREME TRUFFLE", "WHITE RUSSIAN TRUFFLE",
+            "ITALIAN ESPRESSO TRUFFLE", "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE", "WHITE EURO TRUFFLE", "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE", "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE", "MILK SEA SALT CARAMEL", "DARK CHOCOLATE HIMALAYAN SEA SALT CARAMEL",
+            "DARK CHOCOLATE CARAMEL", "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL", "FRESH MINT TRUFFLE", "DARK CREME MINTS",
+            "MILK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE MAPLE PECAN CREAM", "DARK CHOCOLATE FRENCH VANILLA DREAM", "MILK VANILLA DREAMS",
+            "DARK CHOCOLATE RASPBERRY CREME", "MILK CHOCOLATE RASPBERRY CREME", "MILK ORANGE CREME", "DARK CHOCOLATE ORANGE CREME",
+            "ROOT BEER FLOAT TRUFFLE", "MILK CHOCOLATE ENGLISH ALMOND TOFFEE", "DARK CINNAMON ALMOND CARAMEL", "MILK CHOCOLATE PECAN CARAMEL"
         ];
 
-        // 1ST FLOOR HALF PLATE FLAVORS
         const f1HalfPlates = [
-            "MILK CHOCOLATE TIRAMISU TRUFFLE",
-            "WHITE EURO TRUFFLE",
-            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
-            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "PISTACHIO CROWN TRUFFLE",
             "MILK CHOCOLATE SWISS PECAN CREAM",
-            "PISTACHIO CROWN TRUFFLES"
+            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "WHITE EURO TRUFFLE",
+            "MILK CHOCOLATE TIRAMISU TRUFFLE"
         ];
 
         function init() {
@@ -399,22 +330,18 @@
 
         function renderRows(list, containerId, prefix) {
             const container = document.getElementById(containerId);
-            container.innerHTML = ''; // Clear existing rows
+            const halfPlatesList = prefix === 'f6' ? f6HalfPlates : f1HalfPlates;
+            
             list.forEach((name, i) => {
                 const id = `${prefix}_${i}`;
                 const tr = document.createElement('tr');
-                
-                let isHalfPlate = false;
-                if (prefix === 'f6' && f6HalfPlates.includes(name)) isHalfPlate = true;
-                if (prefix === 'f1' && f1HalfPlates.includes(name)) isHalfPlate = true;
-                
-                if (isHalfPlate) tr.classList.add('half-plate-row');
+                const isHalfPlate = halfPlatesList.includes(name);
 
                 tr.innerHTML = `
                     <td>${name}${isHalfPlate ? '<span class="half-plate-badge">Half Plate</span>' : ''}</td>
-                    <td><input type="number" id="${id}_am" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'am')" oninput="calculateSoldAndEnd('${id}')"></td>
-                    <td><input type="number" id="${id}_refill" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'refill')" oninput="calculateSoldAndEnd('${id}')"></td>
-                    <td><input type="number" id="${id}_pm" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'pm')" oninput="calculateSoldAndEnd('${id}')"></td>
+                    <td><input type="number" id="${id}_am" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'am')" oninput="calc('${id}', 'am')"></td>
+                    <td><input type="number" id="${id}_refill" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'refill')" oninput="calc('${id}', 'refill')"></td>
+                    <td><input type="number" id="${id}_pm" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'pm')" oninput="calc('${id}', 'pm')"></td>
                     <td id="${id}_sold" class="sold-text">0</td>
                     <td id="${id}_end" class="end-text">0</td>
                 `;
@@ -434,32 +361,27 @@
             }
         }
 
-        // ONLY function that calculates Sold and End
-        // Sold = AM - PM + Refill (if Refill > 0)
-        function calculateSoldAndEnd(id) {
-            const amInput = document.getElementById(`${id}_am`);
-            const refillInput = document.getElementById(`${id}_refill`);
-            const pmInput = document.getElementById(`${id}_pm`);
+        function calc(id, trigger) {
+            const amIn = document.getElementById(`${id}_am`);
+            const refIn = document.getElementById(`${id}_refill`);
+            const pmIn = document.getElementById(`${id}_pm`);
             const soldEl = document.getElementById(`${id}_sold`);
             const endEl = document.getElementById(`${id}_end`);
 
-            const am = parseInt(amInput.value) || 0;
-            const refill = parseInt(refillInput.value) || 0;
-            const pm = parseInt(pmInput.value) || 0;
+            const am = parseInt(amIn.value) || 0;
+            const ref = parseInt(refIn.value) || 0;
+            const pm = parseInt(pmIn.value) || 0;
 
-            // Calculate Sold: AM - PM + Refill (only add refill if it exists)
-            const soldValue = Math.max(0, am - pm + refill);
+            // New calculation logic: Sold = (AM - PM) + Refill
+            // This allows refill to represent additional items sold beyond the AM count
+            const sold = Math.max(0, (am - pm) + ref);
             
-            // Update displays
-            soldEl.textContent = soldValue;
+            soldEl.textContent = sold;
             endEl.textContent = pm;
 
-            // Low stock warning
-            if (pm > 0 && pm < 5) {
-                endEl.classList.add('low-stock');
-            } else {
-                endEl.classList.remove('low-stock');
-            }
+            const currentEnd = parseInt(endEl.textContent);
+            if (currentEnd > 0 && currentEnd < 5) endEl.classList.add('low-stock');
+            else endEl.classList.remove('low-stock');
 
             updateTotals();
             saveData();
@@ -480,36 +402,16 @@
 
         function updateTopSellers() {
             const sales = {};
-            
-            // Tally sold counts from 6th floor
-            f6List.forEach((name, i) => {
-                const el = document.getElementById(`f6_${i}_sold`);
-                const sold = el ? (parseInt(el.textContent) || 0) : 0;
-                if (sold > 0) {
-                    sales[name] = (sales[name] || 0) + sold;
-                }
+            const tally = (list, prefix) => list.forEach((name, i) => {
+                const el = document.getElementById(`${prefix}_${i}_sold`);
+                const s = el ? (parseInt(el.textContent) || 0) : 0;
+                if (s > 0) sales[name] = (sales[name] || 0) + s;
             });
-            
-            // Tally sold counts from 1st floor
-            f1List.forEach((name, i) => {
-                const el = document.getElementById(`f1_${i}_sold`);
-                const sold = el ? (parseInt(el.textContent) || 0) : 0;
-                if (sold > 0) {
-                    sales[name] = (sales[name] || 0) + sold;
-                }
-            });
-            
-            // Sort by highest sold count and take top 5
-            const sorted = Object.entries(sales).sort((a,b) => b[1] - a[1]).slice(0,5);
-            
-            // Update the display
-            document.getElementById('topSellersList').innerHTML = sorted.length ? sorted.map(([name, count], i) => `
-                <div class="seller-badge">
-                    <span>#${i+1}</span> 
-                    ${name} 
-                    <span class="seller-count">${count}</span>
-                </div>
-            `).join('') : '<div class="seller-badge" style="opacity: 0.5;">Enter counts to track sales...</div>';
+            tally(f6List, 'f6'); tally(f1List, 'f1');
+            const sorted = Object.entries(sales).sort((a,b) => b[1]-a[1]).slice(0,5);
+            document.getElementById('topSellersList').innerHTML = sorted.length ? sorted.map(([n,c],i) => `
+                <div class="seller-badge"><span>#${i+1}</span> ${n} <span class="seller-count">${c}</span></div>
+            `).join('') : '<div class="seller-badge" style="opacity: 0.5;">Waiting for sales data...</div>';
         }
 
         function switchFloor(f) {
@@ -529,9 +431,7 @@
         function lockAM() {
             document.querySelectorAll('input[id$="_am"]').forEach(i => i.disabled = true);
             const b = document.getElementById('lockAmBtn');
-            b.textContent = "AM Locked"; 
-            b.disabled = true; 
-            b.style.opacity = "0.5";
+            b.textContent = "AM Locked"; b.disabled = true; b.style.opacity = "0.5";
             saveData();
             showToast("Morning counts locked.");
         }
@@ -544,7 +444,7 @@
         }
 
         function saveData() {
-            const mapData = (list, prefix) => list.map((_, i) => ({
+            const map = (list, prefix) => list.map((_, i) => ({
                 am: document.getElementById(`${prefix}_${i}_am`)?.value || "",
                 ref: document.getElementById(`${prefix}_${i}_refill`)?.value || "",
                 pm: document.getElementById(`${prefix}_${i}_pm`)?.value || ""
@@ -554,8 +454,7 @@
                 oMod: document.getElementById('openingMod').value,
                 cMod: document.getElementById('closingMod').value,
                 amLocked: document.getElementById('lockAmBtn').disabled,
-                f6: mapData(f6List, 'f6'),
-                f1: mapData(f1List, 'f1')
+                f6: map(f6List, 'f6'), f1: map(f1List, 'f1')
             };
             localStorage.setItem('biss_truffle_full_v2', JSON.stringify(data));
         }
@@ -564,58 +463,35 @@
             const raw = localStorage.getItem('biss_truffle_full_v2');
             if (!raw) return;
             const d = JSON.parse(raw);
+            document.getElementById('trackingDate').value = d.date;
+            document.getElementById('openingMod').value = d.oMod;
+            document.getElementById('closingMod').value = d.cMod;
             
-            document.getElementById('trackingDate').value = d.date || '';
-            document.getElementById('openingMod').value = d.oMod || '';
-            document.getElementById('closingMod').value = d.cMod || '';
-            
-            const fill = (list, prefix, arr) => {
-                if (!arr) return;
-                list.forEach((_, i) => {
-                    const id = `${prefix}_${i}`;
-                    if (arr[i]) {
-                        const amInput = document.getElementById(`${id}_am`);
-                        const refInput = document.getElementById(`${id}_refill`);
-                        const pmInput = document.getElementById(`${id}_pm`);
-                        
-                        if (amInput) amInput.value = arr[i].am || '';
-                        if (refInput) refInput.value = arr[i].ref || '';
-                        if (pmInput) pmInput.value = arr[i].pm || '';
-                    }
-                    if (d.amLocked) {
-                        const amInput = document.getElementById(`${id}_am`);
-                        if (amInput) amInput.disabled = true;
-                    }
-                    calculateSoldAndEnd(id);
-                });
-            };
-            
-            fill(f6List, 'f6', d.f6); 
-            fill(f1List, 'f1', d.f1);
-            
+            const fill = (list, prefix, arr) => list.forEach((_, i) => {
+                const id = `${prefix}_${i}`;
+                const amIn = document.getElementById(`${id}_am`);
+                const refIn = document.getElementById(`${id}_refill`);
+                const pmIn = document.getElementById(`${id}_pm`);
+                
+                if (arr && arr[i]) {
+                    if(amIn) amIn.value = arr[i].am;
+                    if(refIn) refIn.value = arr[i].ref;
+                    if(pmIn) pmIn.value = arr[i].pm;
+                }
+                if (d.amLocked && amIn) amIn.disabled = true;
+                calc(id, 'init');
+            });
+            fill(f6List, 'f6', d.f6); fill(f1List, 'f1', d.f1);
             if (d.amLocked) {
                 const b = document.getElementById('lockAmBtn');
-                b.textContent = "AM Locked"; 
-                b.disabled = true; 
-                b.style.opacity = "0.5";
+                b.textContent = "AM Locked"; b.disabled = true; b.style.opacity = "0.5";
             }
             updateDateDisplay();
         }
 
-        function openReport() { 
-            document.getElementById('reportModal').style.display = 'flex'; 
-        }
-        
-        function closeReport() { 
-            document.getElementById('reportModal').style.display = 'none'; 
-        }
-        
-        function showToast(m) { 
-            const t = document.getElementById('toast'); 
-            t.textContent = m; 
-            t.style.opacity = 1; 
-            setTimeout(() => t.style.opacity = 0, 2500); 
-        }
+        function openReport() { document.getElementById('reportModal').style.display = 'flex'; }
+        function closeReport() { document.getElementById('reportModal').style.display = 'none'; }
+        function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.style.opacity = 1; setTimeout(()=>t.style.opacity=0, 2500); }
 
         function generateReport(type) {
             const date = document.getElementById('displayDate').textContent;
@@ -623,7 +499,7 @@
             let report = `BISSINGER'S ${type.toUpperCase()} REPORT\nDate: ${date}\nMOD: ${mod}\n\n`;
 
             const section = (title, list, prefix) => {
-                let reportContent = `--- ${title} FLOOR ---\n`;
+                let sectionContent = `--- ${title} FLOOR ---\n`;
                 let hasData = false;
                 list.forEach((name, i) => {
                     const id = `${prefix}_${i}`;
@@ -631,20 +507,20 @@
                     const pm = document.getElementById(`${id}_pm`)?.value || 0;
                     const sold = document.getElementById(`${id}_sold`)?.textContent || 0;
                     if (type === 'am' && am > 0) {
-                        reportContent += `${name}: AM ${am}\n`;
+                        sectionContent += `${name}: AM ${am}\n`;
                         hasData = true;
                     }
                     if (type === 'pm' && (pm > 0 || sold > 0)) {
-                        reportContent += `${name}: Sold ${sold} | End ${pm}\n`;
+                        sectionContent += `${name}: Sold ${sold} | End ${pm}\n`;
                         hasData = true;
                     }
                 });
-                if (hasData) report += reportContent + `\n`;
+                if (hasData) report += sectionContent + `\n`;
             };
 
-            section("6TH", f6List, "f6"); 
-            section("1ST", f1List, "f1");
+            section("6TH", f6List, "f6"); section("1ST", f1List, "f1");
             
+            // Fallback for copy
             const textArea = document.createElement("textarea");
             textArea.value = report;
             document.body.appendChild(textArea);
