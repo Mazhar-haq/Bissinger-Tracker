@@ -70,6 +70,34 @@
             font-weight: normal;
         }
 
+        .half-plate-badge-special { 
+            display: inline-block; 
+            font-size: 10px; 
+            background: #6b4f9e; 
+            color: white; 
+            padding: 1px 4px; 
+            border-radius: 3px; 
+            margin-left: 5px; 
+            vertical-align: middle;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: normal;
+        }
+
+        .half-plate-badge-special2 { 
+            display: inline-block; 
+            font-size: 10px; 
+            background: #2c7a7b; 
+            color: white; 
+            padding: 1px 4px; 
+            border-radius: 3px; 
+            margin-left: 5px; 
+            vertical-align: middle;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: normal;
+        }
+
         .count-input { width: 45px; text-align: center; padding: 4px; border: 1px solid #eee; }
         .count-input:focus { border-color: var(--bissingers-gold); outline: none; background: #fffcf5; }
         .count-input:disabled { background: #f9f9f9; color: #999; border: none; }
@@ -238,31 +266,31 @@
 
     <script>
         const f6List = [
-            "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE",
-            "WEDDING CAKE TRUFFLE",
-            "BIRTHDAY CAKE TRUFFLE",
-            "CHOCOLATE MILKSHAKE TRUFFLE",
-            "MILK CHOCOLATE CHERRY CORDIALS",
-            "DARK CHOCOLATE CHERRY CORDIALS",
-            "STRAWBERRY TRUFFLE",
-            "DARK CHOCOLATE RASPBERRY TRUFFLE",
-            "DARK CHOCOLATE CHAMPAGNE TRUFFLE",
-            "RASPBERRY CARAMEL JEWEL",
-            "STRAWBERRY CHEESECAKE TRUFFLE",
+            "NYC CHEESECAKE TRUFFLE",
+            "DARK CHOCOLATE NYE CHAMPAGNE TRUFFLE",
             "IRISH CREME TRUFFLE",
-            "CREME BRÛLÉE TRUFFLE",
-            "TIRAMISU TRUFFLE",
+            "DARK CREME MINTS",
+            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE",
+            "EASTER CAKE WHITE CHOCOLATE TRUFFLE",
+            "EASTER CAKE MILK CHOCOLATE TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE",
+            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
             "DARK CHOCOLATE ITALIAN ESPRESSO TRUFFLE",
             "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE",
+            "TIRAMISU TRUFFLE",
+            "CREME BRÛLÉE TRUFFLE",
+            "MILK CHOCOLATE CHERRY CORDIALS",
+            "DARK CHOCOLATE CHERRY CORDIALS",
+            "STRAWBERRY CHEESECAKE TRUFFLE",
             "RED VELVET CAKE TRUFFLE",
             "GERMAN CHOCOLATE TRUFFLE",
             "DARK CHOCOLATE SOUFFLÉ TRUFFLE",
-            "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE",
+            "RASPBERRY CARAMEL JEWEL",
+            "DARK CHOCOLATE RASPBERRY TRUFFLE",
             "WHITE EURO TRUFFLE",
             "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
             "FRENCH VANILLA \"B\"",
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
-            "WHITE RUSSIAN TRUFFLE",
+            "PINEAPPLE UPSIDE DOWN CAKE TRUFFLE",
             "MILK SWISS CHOCOLATE TRUFFLE",
             "DARK SWISS CHOCOLATE TRUFFLE",
             "MILK SEA SALT CARAMEL",
@@ -271,9 +299,8 @@
             "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL",
             "DARK SEA SALT CARAMEL TRUFFLE",
             "FRESH MINT TRUFFLE",
-            "DARK CREME MINTS",
-            "MILK CHOCOLATE MAPLE PECAN CREAM",
-            "DARK CHOCOLATE MAPLE PECAN CREAM",
+            "WHITE RUSSIAN TRUFFLE",
+            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
             "PISTACHIO CROWN TRUFFLE",
             "DARK CHOCOLATE FRENCH VANILLA DREAM",
             "MILK VANILLA DREAMS",
@@ -287,45 +314,46 @@
             "MILK CHOCOLATE ENGLISH ALMOND TOFFEE",
             "DARK CINNAMON ALMOND CARAMEL",
             "MILK CHOCOLATE PECAN CARAMEL",
-            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE"
+            "MILK CHOCOLATE MAPLE PECAN CREAM",
+            "DARK CHOCOLATE MAPLE PECAN CREAM"
         ];
         
         const f1List = [
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
-            "FRESH MINT TRUFFLE",
-            "BIRTHDAY CAKE TRUFFLE",
-            "MILK CHOCOLATE TIRAMISU TRUFFLE",
-            "WHITE EURO TRUFFLE",
-            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
-            "DARK CHOCOLATE RASPBERRY TRUFFLE",
-            "IRISH CREAM TRUFFLE",
-            "WEDDING CAKE TRUFFLE",
-            "RASPBERRY CARAMEL JEWEL TRUFFLE",
+            "NYC CHEESECAKE TRUFFLE",
+            "DARK CHOCOLATE NYE CHAMPAGNE TRUFFLE",
+            "DARK CREME MINT",
+            "PISTACHIO CROWN TRUFFLE",
             "MILK CHOCOLATE RED VELVET TRUFFLE",
+            "EASTER CAKE MILK CHOCOLATE TRUFFLE",
+            "EASTER CAKE WHITE CHOCOLATE TRUFFLE",
+            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE",
+            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE",
+            "MILK CHOCOLATE SWISS PECAN CREAM",
             "DARK CHOCOLATE FRENCH VANILLA \"B\"",
             "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
-            "DARK CHOCOLATE SEA SALT CARAMEL",
-            "MILK CHOCOLATE SWISS PECAN CREAM",
-            "PISTACHIO CROWN TRUFFLE"
+            "DARK CHOCOLATE SEA SALT CARAMEL"
         ];
 
         const f6HalfPlates = [
-            "MILK CHOCOLATE CARAMEL CHEESECAKE TRUFFLE",
-            "WEDDING CAKE TRUFFLE",
-            "MILK CHOCOLATE CHERRY CORDIALS",
-            "DARK CHOCOLATE CHERRY CORDIALS",
-            "STRAWBERRY TRUFFLE",
-            "DARK CHOCOLATE RASPBERRY TRUFFLE",
-            "DARK CHOCOLATE CHAMPAGNE TRUFFLE",
-            "RASPBERRY CARAMEL JEWEL",
+            "NYC CHEESECAKE TRUFFLE",
+            "DARK CHOCOLATE NYE CHAMPAGNE TRUFFLE",
+            "IRISH CREME TRUFFLE",
+            "DARK CREME MINTS",
+            "EASTER CAKE WHITE CHOCOLATE TRUFFLE",
+            "EASTER CAKE MILK CHOCOLATE TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE",
+            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
             "DARK CHOCOLATE ITALIAN ESPRESSO TRUFFLE",
             "DARK CHOCOLATE CARAMEL MACCHIATO TRUFFLE",
+            "MILK CHOCOLATE CHERRY CORDIALS",
+            "DARK CHOCOLATE CHERRY CORDIALS",
             "RED VELVET CAKE TRUFFLE",
             "GERMAN CHOCOLATE TRUFFLE",
+            "RASPBERRY CARAMEL JEWEL",
+            "DARK CHOCOLATE RASPBERRY TRUFFLE",
             "WHITE EURO TRUFFLE",
             "DARK CHOCOLATE FRENCH VANILLA TRUFFLE",
-            "MILK CHOCOLATE CARAMEL FUDGE BROWNIE TRUFFLE",
-            "WHITE RUSSIAN TRUFFLE",
             "MILK SWISS CHOCOLATE TRUFFLE",
             "DARK SWISS CHOCOLATE TRUFFLE",
             "MILK SEA SALT CARAMEL",
@@ -333,9 +361,7 @@
             "DARK CHOCOLATE CARAMEL",
             "MILK CHOCOLATE DOUBLE CHOCOLATE CARAMEL",
             "FRESH MINT TRUFFLE",
-            "DARK CREME MINTS",
-            "MILK CHOCOLATE MAPLE PECAN CREAM",
-            "DARK CHOCOLATE MAPLE PECAN CREAM",
+            "WHITE RUSSIAN TRUFFLE",
             "DARK CHOCOLATE FRENCH VANILLA DREAM",
             "MILK VANILLA DREAMS",
             "DARK CHOCOLATE RASPBERRY CREME",
@@ -345,16 +371,33 @@
             "ROOT BEER FLOAT TRUFFLE",
             "MILK CHOCOLATE ENGLISH ALMOND TOFFEE",
             "DARK CINNAMON ALMOND CARAMEL",
-            "MILK CHOCOLATE PECAN CARAMEL"
+            "MILK CHOCOLATE PECAN CARAMEL",
+            "MILK CHOCOLATE MAPLE PECAN CREAM",
+            "DARK CHOCOLATE MAPLE PECAN CREAM"
         ];
 
         const f1HalfPlates = [
-            "MILK CHOCOLATE TIRAMISU TRUFFLE",
-            "WHITE EURO TRUFFLE",
-            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
-            "DARK CHOCOLATE SEA SALT CARAMEL",
+            "NYC CHEESECAKE TRUFFLE",
+            "DARK CHOCOLATE NYE CHAMPAGNE TRUFFLE",
+            "MILK CHOCOLATE STRAWBERRY TRUFFLE",
+            "CHOCOLATE MILKSHAKE TRUFFLE",
+            "MILK CHOCOLATE PEANUT BUTTER TRUFFLE",
             "MILK CHOCOLATE SWISS PECAN CREAM",
-            "PISTACHIO CROWN TRUFFLE"
+            "MILK CHOCOLATE FRENCH SEA SALT CARAMEL",
+            "DARK CHOCOLATE SEA SALT CARAMEL"
+        ];
+
+        const f6SpecialHalfPlates = [
+            "DARK CHOCOLATE FRENCH VANILLA DREAM",
+            "MILK VANILLA DREAMS",
+            "DARK CHOCOLATE RASPBERRY CREME",
+            "MILK CHOCOLATE RASPBERRY CREME",
+            "MILK CHOCOLATE ENGLISH ALMOND TOFFEE"
+        ];
+
+        const f6SpecialHalfPlates2 = [
+            "MILK CHOCOLATE MAPLE PECAN CREAM",
+            "DARK CHOCOLATE MAPLE PECAN CREAM"
         ];
 
         function init() {
@@ -400,10 +443,23 @@
             list.forEach((name, i) => {
                 const id = `${prefix}_${i}`;
                 const tr = document.createElement('tr');
+                
+                // Check if it's a regular half plate or special half plate
                 const isHalfPlate = halfPlatesList.includes(name);
+                const isSpecialHalfPlate = prefix === 'f6' && f6SpecialHalfPlates.includes(name);
+                const isSpecialHalfPlate2 = prefix === 'f6' && f6SpecialHalfPlates2.includes(name);
+                
+                let badgeHtml = '';
+                if (isSpecialHalfPlate2) {
+                    badgeHtml = '<span class="half-plate-badge-special2">Half Plate</span>';
+                } else if (isSpecialHalfPlate) {
+                    badgeHtml = '<span class="half-plate-badge-special">Half Plate</span>';
+                } else if (isHalfPlate) {
+                    badgeHtml = '<span class="half-plate-badge">Half Plate</span>';
+                }
 
                 tr.innerHTML = `
-                    <td>${name}${isHalfPlate ? '<span class="half-plate-badge">Half Plate</span>' : ''}</td>
+                    <td>${name}${badgeHtml}</td>
                     <td><input type="number" id="${id}_am" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'am')" oninput="calc('${id}', 'am')"></td>
                     <td><input type="number" id="${id}_refill" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'refill')" oninput="calc('${id}', 'refill')"></td>
                     <td><input type="number" id="${id}_pm" class="count-input" onkeydown="handleTab(event, '${prefix}', ${i}, 'pm')" oninput="calc('${id}', 'pm')"></td>
@@ -437,8 +493,7 @@
             const ref = parseInt(refIn.value) || 0;
             const pm = parseInt(pmIn.value) || 0;
 
-            // New calculation logic: Sold = (AM - PM) + Refill
-            // This allows refill to represent additional items sold beyond the AM count
+            // Calculation logic: Sold = (AM - PM) + Refill
             const sold = Math.max(0, (am - pm) + ref);
             
             soldEl.textContent = sold;
